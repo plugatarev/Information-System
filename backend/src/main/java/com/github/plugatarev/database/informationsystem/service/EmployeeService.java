@@ -1,52 +1,28 @@
 package com.github.plugatarev.database.informationsystem.service;
 
+import com.github.plugatarev.database.informationsystem.dto.EmployeeDto;
 import com.github.plugatarev.database.informationsystem.entity.Employee;
-import com.github.plugatarev.database.informationsystem.exception.NotFoundEntityException;
-import com.github.plugatarev.database.informationsystem.exception.NotUniqueEntityException;
+import com.github.plugatarev.database.informationsystem.mapper.EmployeeMapper;
+import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class EmployeeService {
+public class EmployeeService extends AbstractService<Employee, EmployeeDto> {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
 
-    public Employee save(Employee employee) {
-        String passport = employee.getPassport();
-        if (!employeeRepository.existsByPassport(passport)) {
-            throw new NotUniqueEntityException("Employee with passport " + passport + " already exists!");
-        }
-        return employeeRepository.save(employee);
+    @Override
+    protected JpaRepository<Employee, Long> getRepository() {
+        return employeeRepository;
     }
 
-    public void delete(Long id) {
-        employeeRepository.deleteById(id);
-    }
-
-    public Employee update(Long id, Employee employee) {
-        Employee updateEmployee = employeeRepository.findById(id).orElseThrow(
-                () -> new NotFoundEntityException("Employee with id " + id + " not exists!")
-        );
-        updateEmployee.setPassport(employee.getPassport());
-        updateEmployee.setDismissalDate(employee.getDismissalDate());
-        updateEmployee.setSecondName(employee.getSecondName());
-        updateEmployee.setFirstName(employee.getFirstName());
-        updateEmployee.setEmployeeCategoryType(employee.getEmployeeCategoryType());
-        return employeeRepository.save(updateEmployee);
-    }
-
-    public Employee getById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(
-                () -> new NotFoundEntityException("Employee with id " + id + " not found")
-        );
-
-    }
-
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    @Override
+    protected IMapper<Employee, EmployeeDto> getMapper() {
+        return employeeMapper;
     }
 }

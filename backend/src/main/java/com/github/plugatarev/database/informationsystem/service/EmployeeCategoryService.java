@@ -1,26 +1,28 @@
 package com.github.plugatarev.database.informationsystem.service;
 
+import com.github.plugatarev.database.informationsystem.dto.EmployeeCategoryDto;
 import com.github.plugatarev.database.informationsystem.entity.EmployeeCategory;
-import com.github.plugatarev.database.informationsystem.exception.NotFoundEntityException;
+import com.github.plugatarev.database.informationsystem.mapper.EmployeeCategoryMapper;
+import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.repository.EmployeeCategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class EmployeeCategoryService {
+public class EmployeeCategoryService extends AbstractService<EmployeeCategory, EmployeeCategoryDto> {
 
     private final EmployeeCategoryRepository employeeCategoryRepository;
+    private final EmployeeCategoryMapper employeeCategoryMapper;
 
-    public EmployeeCategory getById(Long id) {
-        return employeeCategoryRepository.findById(id).orElseThrow(
-                () -> new NotFoundEntityException("EmployeeCategory entity with id " + id + " not found")
-        );
+    @Override
+    protected JpaRepository<EmployeeCategory, Long> getRepository() {
+        return employeeCategoryRepository;
     }
 
-    public List<EmployeeCategory> getAll() {
-        return employeeCategoryRepository.findAll();
+    @Override
+    protected IMapper<EmployeeCategory, EmployeeCategoryDto> getMapper() {
+        return employeeCategoryMapper;
     }
 }
