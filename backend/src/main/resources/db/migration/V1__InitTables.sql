@@ -1,12 +1,6 @@
-create table company(
-    id              bigint primary key,
-    company_name    varchar(255) not null unique
-);
-
 create table department(
     id                 bigint primary key,
-    department_name    varchar(255) not null unique,
-    company            bigint references company(id) on delete cascade on update cascade
+    department_name    varchar(255) not null unique
 );
 
 create table employee_category(

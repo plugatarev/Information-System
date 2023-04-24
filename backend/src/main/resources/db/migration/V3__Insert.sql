@@ -1,8 +1,5 @@
-insert into company values (1, 'Lada'),
-                           (2, 'Nada');
-
-insert into department values (1, 'motor', 1),
-                              (2, 'device', 2);
+insert into department values (1, 'motor'),
+                              (2, 'device');
 
 insert into employee_category values (1, 'worker'),
                                      (2, 'engineering_staff'),
