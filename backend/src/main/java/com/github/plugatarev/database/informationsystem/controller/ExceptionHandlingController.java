@@ -1,6 +1,6 @@
 package com.github.plugatarev.database.informationsystem.controller;
 
-import com.github.plugatarev.database.informationsystem.exception.NotFoundEntityException;
+import com.github.plugatarev.database.informationsystem.exception.EntityNotFoundException;
 import com.github.plugatarev.database.informationsystem.exception.NotUniqueEntityException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class ExceptionHandlingController {
         return errorJoiner.toString();
     }
 
-    @ExceptionHandler(NotFoundEntityException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public String handleNotFoundException(HttpServletRequest request, Exception exception) {
         logError(request, exception);
         return exception.getMessage();

@@ -1,42 +1,21 @@
 package com.github.plugatarev.database.informationsystem.controller;
 
-import com.github.plugatarev.database.informationsystem.entity.Brigade;
+import com.github.plugatarev.database.informationsystem.dto.BrigadeDto;
 import com.github.plugatarev.database.informationsystem.service.BrigadeService;
-import jakarta.validation.constraints.NotNull;
+import com.github.plugatarev.database.informationsystem.service.Service;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/brigade")
 @AllArgsConstructor
-public class BrigadeController {
+public class BrigadeController extends AbstractController<BrigadeDto> {
 
     private final BrigadeService brigadeService;
 
-    @GetMapping("/{id}")
-    public Brigade get(@NotNull @PathVariable("id") Long id) {
-        return brigadeService.getById(id);
-    }
-
-    @PostMapping
-    public Brigade save(@RequestBody Brigade brigade) {
-        return brigadeService.save(brigade);
-    }
-
-    @PutMapping("/{id}")
-    public Brigade update(@NotNull @PathVariable("id") Long id, @RequestBody Brigade brigade) {
-        return brigadeService.update(id, brigade);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@NotNull @PathVariable("id") Long id) {
-        brigadeService.delete(id);
-    }
-
-    @GetMapping
-    public List<Brigade> getDepartmentChiefs() {
-        return brigadeService.getAll();
+    @Override
+    protected Service<BrigadeDto> getService() {
+        return brigadeService;
     }
 }
