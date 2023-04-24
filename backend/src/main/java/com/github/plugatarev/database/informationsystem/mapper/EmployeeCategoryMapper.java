@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface EmployeeCategoryMapper {
-    EmployeeCategoryDto employeeCategoryToEmployeeCategoryDto(EmployeeCategory employeeCategory);
+public interface EmployeeCategoryMapper extends IMapper<EmployeeCategory, EmployeeCategoryDto> {
+    @Override
+    EmployeeCategoryDto toDto(EmployeeCategory employeeCategory);
 
-    EmployeeCategory employeeCategoryDtoToEmployeeCategory(EmployeeCategoryDto employeeCategoryDto);
+    @Override
+    EmployeeCategory toEntity(EmployeeCategoryDto employeeCategoryDto);
 }

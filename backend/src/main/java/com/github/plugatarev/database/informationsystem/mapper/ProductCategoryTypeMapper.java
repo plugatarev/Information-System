@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ProductCategoryTypeMapper {
-    ProductCategoryTypeDto productCategoryTypeToProductCategoryTypeDto(ProductCategoryType productCategoryType);
+public interface ProductCategoryTypeMapper extends IMapper<ProductCategoryType, ProductCategoryTypeDto> {
+    @Override
+    ProductCategoryTypeDto toDto(ProductCategoryType productCategoryType);
 
-    ProductCategoryType productCategoryTypeDtoToProductCategoryType(ProductCategoryTypeDto productCategoryTypeDto);
+    @Override
+    ProductCategoryType toEntity(ProductCategoryTypeDto productCategoryTypeDto);
 }

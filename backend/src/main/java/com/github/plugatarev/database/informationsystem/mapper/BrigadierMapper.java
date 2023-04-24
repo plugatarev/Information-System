@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface BrigadierMapper {
-    BrigadierDto brigadierToBrigadierDto(Brigadier brigadier);
+public interface BrigadierMapper extends IMapper<Brigadier, BrigadierDto> {
+    @Override
+    BrigadierDto toDto(Brigadier brigadier);
 
-    Brigadier brigadierDtoToBrigadier(BrigadierDto brigadierDto);
+    @Override
+    Brigadier toEntity(BrigadierDto brigadierDto);
 }

@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface EquipmentMapper {
-    EquipmentDto equipmentToEquipmentDto(Equipment equipment);
+public interface EquipmentMapper extends IMapper<Equipment, EquipmentDto> {
+    @Override
+    EquipmentDto toDto(Equipment equipment);
 
-    Equipment equipmentDtoToEquipment(EquipmentDto equipmentDto);
+    @Override
+    Equipment toEntity(EquipmentDto equipmentDto);
 }

@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ProductPropertyMapper {
-    ProductPropertyDto productPropertyToProductPropertyDto(ProductProperty productProperty);
+public interface ProductPropertyMapper extends IMapper<ProductProperty, ProductPropertyDto> {
+    @Override
+    ProductPropertyDto toDto(ProductProperty productProperty);
 
-    ProductProperty productPropertyDtoToProductProperty(ProductPropertyDto productPropertyDto);
+    @Override
+    ProductProperty toEntity(ProductPropertyDto productPropertyDto);
 }

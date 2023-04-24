@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface OrderTestMapper {
-    OrderTestDto orderTestToOrderTestDto(OrderTest orderTest);
+public interface OrderTestMapper extends IMapper<OrderTest, OrderTestDto> {
+    @Override
+    OrderTestDto toDto(OrderTest orderTest);
 
-    OrderTest orderTestDtoToOrderTest(OrderTestDto orderTestDto);
+    @Override
+    OrderTest toEntity(OrderTestDto orderTestDto);
 }

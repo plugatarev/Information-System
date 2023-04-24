@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkerBrigadeMapper {
-    WorkerBrigadeDto workerBrigadeToWorkerBrigadeDto(WorkerBrigade workerBrigade);
+public interface WorkerBrigadeMapper extends IMapper<WorkerBrigade, WorkerBrigadeDto> {
+    @Override
+    WorkerBrigadeDto toDto(WorkerBrigade workerBrigade);
 
-    WorkerBrigade workerBrigadeDtoToWorkerBrigade(WorkerBrigadeDto workerBrigadeDto);
+    @Override
+    WorkerBrigade toEntity(WorkerBrigadeDto workerBrigadeDto);
 }

@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DepartmentMapper {
-    DepartmentDto departmentToDepartmentDto(Department department);
+public interface DepartmentMapper extends IMapper<Department, DepartmentDto> {
+    @Override
+    DepartmentDto toDto(Department department);
 
-    Department departmentDtoToDepartment(DepartmentDto departmentDto);
+    @Override
+    Department toEntity(DepartmentDto departmentDto);
 }

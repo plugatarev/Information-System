@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface LaboratoryMapper {
-    LaboratoryDto laboratoryToLaboratoryDto(Laboratory laboratory);
+public interface LaboratoryMapper extends IMapper<Laboratory, LaboratoryDto> {
+    @Override
+    LaboratoryDto toDto(Laboratory laboratory);
 
-    Laboratory laboratoryDtoToLaboratory(LaboratoryDto laboratoryDto);
+    @Override
+    Laboratory toEntity(LaboratoryDto laboratoryDto);
 }
