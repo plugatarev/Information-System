@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class WorkerBrigade {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class WorkerBrigade extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "worker", nullable = false)

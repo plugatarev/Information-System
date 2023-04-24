@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderTest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class OrderTest extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "laboratory_order", referencedColumnName = "id")
     private LaboratoryOrder laboratoryOrder;

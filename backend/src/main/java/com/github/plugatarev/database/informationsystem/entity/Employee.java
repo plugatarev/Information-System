@@ -10,15 +10,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employee")
+@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Employee extends AbstractEntity {
 
     @Column(name = "first_name", nullable = false)
     private String firstName;

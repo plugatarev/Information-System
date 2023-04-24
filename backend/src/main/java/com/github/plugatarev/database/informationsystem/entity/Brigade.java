@@ -13,17 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Brigade {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Brigade extends AbstractEntity {
 
     @Column(name = "brigade_name", nullable = false, unique = true)
     private String brigadeName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brigadier")
+    @ManyToOne
+    @JoinColumn(name = "brigadier", referencedColumnName = "id")
     private Brigadier brigadier;
+
+    @ManyToOne
+    @JoinColumn(name = "department_region", referencedColumnName = "id")
+    private DepartmentRegion departmentRegion;
 }

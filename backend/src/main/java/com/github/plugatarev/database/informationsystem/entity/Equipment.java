@@ -13,11 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Equipment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Equipment extends AbstractEntity {
     @Column(name = "serial_number", nullable = false, unique = true)
     @Size(min = 10, max = 10, message = "Serial number of the equipment must be 10 characters")
     private String serialNumber;

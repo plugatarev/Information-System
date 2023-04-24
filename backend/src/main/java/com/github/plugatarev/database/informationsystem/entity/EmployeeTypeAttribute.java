@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeeTypeAttribute {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class EmployeeTypeAttribute extends AbstractEntity {
 
     @Column(name = "attribute_name", nullable = false)
     private String attributeName;

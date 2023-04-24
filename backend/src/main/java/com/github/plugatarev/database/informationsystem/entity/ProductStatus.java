@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductStatus {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductStatus extends AbstractEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegionBrigade {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class RegionBrigade extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "region", referencedColumnName = "id")
     private DepartmentRegion region;

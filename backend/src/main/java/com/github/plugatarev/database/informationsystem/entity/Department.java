@@ -12,18 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Department {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Department extends AbstractEntity {
 
     @Column(name = "department_name", nullable = false, unique = true)
     private String departmentName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company")
-    private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chief")

@@ -12,18 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Test {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Test extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "equipment", referencedColumnName = "id")
     private Equipment equipment;
 
     @ManyToOne
     @JoinColumn(name = "laboratory_employee", referencedColumnName = "id")
-    private LaboratoryEmployee laboratoryEmployee;
+    private Tester tester;
 
     @Column(name = "description", nullable = false)
     private String description;

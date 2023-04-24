@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "department_region_chief")
+@Table(name = "laboratory_employee")
 @Getter
 @Setter
-public class DepartmentRegionChief extends Employee {
+public class Tester extends Employee {
 }

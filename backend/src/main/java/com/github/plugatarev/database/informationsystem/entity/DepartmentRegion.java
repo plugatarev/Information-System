@@ -15,11 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DepartmentRegion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class DepartmentRegion extends AbstractEntity {
     @Column(name = "region_name", unique = true, nullable = false)
     private String regionName;
 

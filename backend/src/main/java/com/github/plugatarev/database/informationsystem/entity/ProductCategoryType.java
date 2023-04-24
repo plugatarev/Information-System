@@ -12,11 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductCategoryType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class ProductCategoryType extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
