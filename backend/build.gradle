@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'com.githu.plugatarev.database'
+group = 'com.github.plugatarev.database.informationsystem'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -16,15 +16,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.4.Final'
-    implementation 'org.postgresql:postgresql'
-
-    compileOnly 'org.projectlombok:lombok:1.18.26'
+    implementation "org.mapstruct:mapstruct:1.5.3.Final"
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.postgresql:postgresql'
 }
