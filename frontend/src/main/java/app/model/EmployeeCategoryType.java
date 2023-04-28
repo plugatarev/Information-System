@@ -15,10 +15,10 @@ public class EmployeeCategoryType extends Entity {
     private String employeeCategoryNameProperty;
 
     @Override
-    public EmployeeCategory clone() {
+    public EmployeeCategoryType clone() {
         var clone = (EmployeeCategoryType) super.clone();
         clone.setEmployeeCategory(employeeCategory.clone());
-        return (EmployeeCategory) super.clone();
+        return (EmployeeCategoryType) super.clone();
     }
 
     @Override

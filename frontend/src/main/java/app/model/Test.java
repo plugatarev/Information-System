@@ -14,8 +14,7 @@ public class Test extends Entity {
     private String description;
 
     private String equipmentSerialNumberProperty;
-    private String testerFirstNameProperty;
-    private String testerSecondNameProperty;
+    private String testerNameProperty;
 
     @Override
     public Test clone() {
@@ -29,8 +28,7 @@ public class Test extends Entity {
     public void calculateProperties() {
         super.calculateProperties();
         equipmentSerialNumberProperty = equipment.getSerialNumber();
-        testerFirstNameProperty = tester.getFirstName();
-        testerSecondNameProperty = tester.getSecondName();
+        testerNameProperty = tester.getFirstName() + " " + tester.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -40,14 +38,11 @@ public class Test extends Entity {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("equipmentSerialNumberProperty", "Оборудование");
         propertyNames.put("testerFirstNameProperty", "Имя тестировщика");
-        propertyNames.put("testerSecondNameProperty", "Фамилия тестировщика");
-        propertyNames.put("description", "Описание теста");
+        propertyNames.put("testerNameProperty", "Тестировщик");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("equipmentSerialNumberProperty", "Оборудование");
-        sortPropertyNames.put("testerFirstNameProperty", "Имя тестировщика");
-        sortPropertyNames.put("testerSecondNameProperty", "Фамилия тестировщика");
-        sortPropertyNames.put("description", "Описание теста");
+        sortPropertyNames.put("testerNameProperty", "Тестировщик");
     }
 
     public static Map<String, String> getPropertyNames() {

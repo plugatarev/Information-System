@@ -4,8 +4,8 @@ import app.utils.LocalDateFormatter;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -16,8 +16,8 @@ public class Employee extends Entity {
     private String secondName;
     private String passport;
     private EmployeeCategoryType employeeCategoryType = new EmployeeCategoryType();
-    private LocalDate employmentDate = LocalDate.now();
-    private LocalDate dismissalDate = LocalDate.now();
+    private Date employmentDate;
+    private Date dismissalDate;
 
     private String employeeCategoryTypeProperty;
     private String employmentDateProperty;
@@ -25,7 +25,9 @@ public class Employee extends Entity {
 
     @Override
     public Employee clone() {
-        return (Employee) super.clone();
+        var clone = (Employee) super.clone();
+        clone.setEmployeeCategoryType(employeeCategoryType.clone());
+        return clone;
     }
 
 
@@ -33,8 +35,8 @@ public class Employee extends Entity {
     public void calculateProperties() {
         super.calculateProperties();
         employeeCategoryTypeProperty = employeeCategoryType.getName();
-        employmentDateProperty = LocalDateFormatter.getFormattedDate(employmentDate);
-        dismissalDateProperty = LocalDateFormatter.getFormattedDate(dismissalDate);
+        employmentDateProperty = LocalDateFormatter.getFormattedDateTime(employmentDate);
+        dismissalDateProperty = LocalDateFormatter.getFormattedDateTime(dismissalDate);
     }
     
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

@@ -14,8 +14,7 @@ public class Brigade extends Entity {
     private DepartmentRegion departmentRegion = new DepartmentRegion();
 
     private String departmentRegionNameProperty;
-    private String brigadierFirstNameProperty;
-    private String brigadierSecondNameProperty;
+    private String brigadierNameProperty;
 
     @Override
     public Brigade clone() {
@@ -29,8 +28,7 @@ public class Brigade extends Entity {
     public void calculateProperties() {
         super.calculateProperties();
         departmentRegionNameProperty = departmentRegion.getRegionName();
-        brigadierFirstNameProperty = brigadier.getFirstName();
-        brigadierSecondNameProperty = brigadier.getSecondName();
+        brigadierNameProperty = brigadier.getFirstName() + " " + brigadier.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -40,14 +38,12 @@ public class Brigade extends Entity {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("brigadeName", "Бригада");
         propertyNames.put("departmentRegionNameProperty", "Цех");
-        propertyNames.put("brigadierFirstNameProperty", "Имя начальника");
-        propertyNames.put("brigadierSecondNameProperty", "Фамилия начальника");
+        propertyNames.put("brigadierNameProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("brigadeName", "Бригада");
         sortPropertyNames.put("departmentRegionNameProperty", "Цех");
-        sortPropertyNames.put("brigadierFirstNameProperty", "Имя начальника");
-        sortPropertyNames.put("brigadierSecondNameProperty", "Фамилия начальника");
+        sortPropertyNames.put("brigadierNameProperty", "Начальник");
     }
 
     public static Map<String, String> getPropertyNames() {

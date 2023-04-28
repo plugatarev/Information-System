@@ -16,8 +16,7 @@ public class DepartmentRegion extends Entity {
 
     private String departmentNameProperty;
     private String collectionBrigadeNameProperty;
-    private String chiefFirstNameProperty;
-    private String chiefSecondNameProperty;
+    private String chiefNameProperty;
 
     @Override
     public DepartmentRegion clone() {
@@ -31,8 +30,7 @@ public class DepartmentRegion extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        chiefFirstNameProperty = chief.getFirstName();
-        chiefSecondNameProperty = chief.getSecondName();
+        chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
         departmentNameProperty = department.getDepartmentName();
         collectionBrigadeNameProperty = collectingBrigade.getBrigadeName();
     }
@@ -45,15 +43,13 @@ public class DepartmentRegion extends Entity {
         propertyNames.put("regionName", "Участок");
         propertyNames.put("departmentNameProperty", "Цех");
         propertyNames.put("collectionBrigadeNameProperty", "Собирающая бригада");
-        propertyNames.put("chiefFirstNameProperty", "Имя начальника");
-        propertyNames.put("chiefSecondNameProperty", "Фамилия начальника");
+        propertyNames.put("chiefNameProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("regionName", "Участок");
         sortPropertyNames.put("departmentNameProperty", "Цех");
         sortPropertyNames.put("collectionBrigadeNameProperty", "Собирающая бригада");
-        sortPropertyNames.put("chiefFirstNameProperty", "Имя начальника");
-        sortPropertyNames.put("chiefSecondNameProperty", "Фамилия начальника");
+        sortPropertyNames.put("chiefNameProperty", "Начальник");
     }
 
     public static Map<String, String> getPropertyNames() {

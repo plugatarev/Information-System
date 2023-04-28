@@ -13,8 +13,7 @@ public class Department extends Entity {
     private String departmentName;
     private DepartmentChief chief = new DepartmentChief();
 
-    private String chiefFirstNameProperty;
-    private String chiefSecondNameProperty;
+    private String chiefNameProperty;
 
     @Override
     public Department clone() {
@@ -26,8 +25,7 @@ public class Department extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        chiefFirstNameProperty = chief.getFirstName();
-        chiefSecondNameProperty = chief.getSecondName();
+        chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -36,13 +34,11 @@ public class Department extends Entity {
     static {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("departmentName", "Цех");
-        propertyNames.put("chiefFirstNameProperty", "Имя начальника");
-        propertyNames.put("chiefSecondNameProperty", "Фамилия начальника");
+        propertyNames.put("chiefNameProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("name", "Название отдела");
-        sortPropertyNames.put("chiefFirstNameProperty", "Имя начальника");
-        sortPropertyNames.put("chiefSecondNameProperty", "Фамилия начальника");
+        sortPropertyNames.put("chiefNameProperty", "Начальник");
     }
 
     public static Map<String, String> getPropertyNames() {
