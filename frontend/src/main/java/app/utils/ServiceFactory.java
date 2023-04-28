@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ServiceFactory {
 
-    private static final String SERVER_HOSTNAME = "http://localhost:8080/";
+    private static final String SERVER_HOSTNAME = "http://localhost:8080/api/v1/";
 
     public BrigadeService getBrigadeService() {
         return new BrigadeServiceImpl(SERVER_HOSTNAME);
