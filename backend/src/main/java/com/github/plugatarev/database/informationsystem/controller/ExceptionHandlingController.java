@@ -1,7 +1,7 @@
 package com.github.plugatarev.database.informationsystem.controller;
 
 import com.github.plugatarev.database.informationsystem.exception.EntityNotFoundException;
-import com.github.plugatarev.database.informationsystem.exception.NotUniqueEntityException;
+import com.github.plugatarev.database.informationsystem.exception.EntityNotUniqueException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -40,7 +40,7 @@ public class ExceptionHandlingController {
         return exception.getMessage();
     }
 
-    @ExceptionHandler(NotUniqueEntityException.class)
+    @ExceptionHandler(EntityNotUniqueException.class)
     public String handleNotUniqueException(HttpServletRequest request, Exception exception) {
         logError(request, exception);
         return exception.getMessage();

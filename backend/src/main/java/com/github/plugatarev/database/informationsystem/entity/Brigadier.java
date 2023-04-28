@@ -7,5 +7,5 @@ import lombok.*;
 @Table(name = "brigadier")
 @Getter
 @Setter
-public class  Brigadier extends Employee {
+public class Brigadier extends Employee {
 }
