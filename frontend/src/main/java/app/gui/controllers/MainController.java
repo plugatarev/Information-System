@@ -1,16 +1,13 @@
 package app.gui.controllers;
 
 import app.gui.controllers.interfaces.ContextWindowBuilder;
+import app.gui.forms.filtering.Filter;
 import app.gui.forms.filtering.FilterBoxBuilder;
-import app.gui.forms.filtering.impl.EmployeeFilterBoxBuilder;
 import app.gui.forms.input.EntityInputFormBuilder;
-import app.gui.forms.input.impl.DepartmentInputFormBuilder;
-import app.gui.forms.input.impl.EmployeeInputFormBuilder;
-import app.model.Department;
-import app.model.Employee;
-import app.model.Entity;
+import app.gui.forms.input.impl.*;
+import app.model.*;
+import app.services.DepartmentRegionService;
 import app.services.DepartmentService;
-import app.services.EmployeeService;
 import app.services.Service;
 import app.utils.LocalDateFormatter;
 import app.utils.RequestExecutor;
@@ -48,260 +45,189 @@ public class MainController {
         contentTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
 
-//    @FXML
-//    void openAirplaneTypes() {
-//        createEntityTable(
-//                "Модели самолетов",
-//                AirplaneType.getPropertyNames(),
-//                AirplaneType.getSortPropertyNames(),
-//                ServiceFactory.getAirplaneTypeService(),
-//                new AirplaneTypeInputFormBuilder(requestExecutor),
-//                null,
-//                null,
-//                null
-//        );
-//    }
-
     @FXML
     void openDepartmentRegions() {
+        createEntityTable(
+                "Участки",
+                DepartmentRegion.getPropertyNames(),
+                DepartmentRegion.getSortPropertyNames(),
+                ServiceFactory.getDepartmentRegionService(),
+                new DepartmentRegionInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openBrigades() {
+        createEntityTable(
+                "Бригады",
+                Brigade.getPropertyNames(),
+                Brigade.getSortPropertyNames(),
+                ServiceFactory.getBrigadeService(),
+                new BrigadeInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openDepartmentChiefs() {
+        createEntityTable(
+                "Начальники цехов",
+                DepartmentChief.getPropertyNames(),
+                DepartmentChief.getSortPropertyNames(),
+                ServiceFactory.getDepartmentChiefService(),
+                new DepartmentChiefInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openDepartmentRegionChiefs() {
+        createEntityTable(
+                "Начальники участков",
+                DepartmentRegionChief.getPropertyNames(),
+                DepartmentRegionChief.getSortPropertyNames(),
+                ServiceFactory.getDepartmentRegionChiefService(),
+                new DepartmentRegionChiefInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openMasters() {
+        createEntityTable(
+                "Мастера",
+                Master.getPropertyNames(),
+                Master.getSortPropertyNames(),
+                ServiceFactory.getMasterService(),
+                new MasterInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openTesters() {
+        createEntityTable(
+                "Тестировщики",
+                Tester.getPropertyNames(),
+                Tester.getSortPropertyNames(),
+                ServiceFactory.getTesterService(),
+                new TesterInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openProducts() {
+        createEntityTable(
+                "Изделия",
+                Product.getPropertyNames(),
+                Product.getSortPropertyNames(),
+                ServiceFactory.getProductService(),
+                new ProductInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openLaboratoryOrders() {
+        createEntityTable(
+                "Заказы тестирования",
+                LaboratoryOrder.getPropertyNames(),
+                LaboratoryOrder.getSortPropertyNames(),
+                ServiceFactory.getLaboratoryOrderService(),
+                new LaboratoryOrderInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openLaboratories() {
+        createEntityTable(
+                "Лаборатории",
+                Laboratory.getPropertyNames(),
+                Laboratory.getSortPropertyNames(),
+                ServiceFactory.getLaboratoryService(),
+                new LaboratoryInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     void openTests() {
+        createEntityTable(
+                "Тесты",
+                Test.getPropertyNames(),
+                Test.getSortPropertyNames(),
+                ServiceFactory.getTestService(),
+                new TestInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
     }
 
     @FXML
     @SneakyThrows
     void openEmployees() {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
-        var medicalExaminationService = ServiceFactory.getMedicalExaminationService();
-
-        ContextWindowBuilder<Employee> infoWindowBuilder = employee -> {
-            var medExamPropertyNames = new LinkedHashMap<>(MedicalExamination.getPropertyNames());
-            medExamPropertyNames.remove("employeeNameProperty");
-            var medExamSortPropertyNames = new LinkedHashMap<>(MedicalExamination.getSortPropertyNames());
-            medExamSortPropertyNames.remove("employeeName");
-
-            Node medExamTable = createInfoWindowEntityTable(
-                    medExamPropertyNames,
-                    medExamSortPropertyNames,
-                    pageInfo -> employeeService.getMedicalExaminations(employee.getId(), pageInfo),
-                    medicalExaminationService::deleteById,
-                    new MedicalExaminationInputFormBuilder(requestExecutor),
-                    () -> {
-                        var medicalExamination = new MedicalExamination();
-                        medicalExamination.getEmployee().setId(employee.getId());
-                        return medicalExamination;
-                    }
-            );
-
-            return EntityInfoWindowBuilder
-                    .newInfoWindow(String.format("Работник %s", employee.getName()))
-                    .addTab(medExamTable, "Мед. осмотры")
-                    .build();
-        };
-
         createEntityTable(
-                "Сотрудники",
+                "Работники",
                 Employee.getPropertyNames(),
                 Employee.getSortPropertyNames(),
                 ServiceFactory.getEmployeeService(),
                 new EmployeeInputFormBuilder(requestExecutor),
-                infoWindowBuilder,
-                new EmployeeFilterBoxBuilder(),
-                EmployeeFilter::new
+                null,
+                null,
+                null
         );
     }
-
-//    @FXML
-//    @SneakyThrows
-//    void openAirplanes() {
-//        AirplaneService airplaneService = ServiceFactory.getAirplaneService();
-//        TechInspectionService techInspectionService = ServiceFactory.getTechInspectionService();
-//        RepairService repairService = ServiceFactory.getRepairService();
-//
-//        ContextWindowBuilder<Airplane> infoWindowBuilder = airplane -> {
-//
-//            var techInspectionPropertyNames = new LinkedHashMap<>(TechInspection.getPropertyNames());
-//            techInspectionPropertyNames.remove("airplaneIdProperty");
-//            techInspectionPropertyNames.remove("airplaneTypeNameProperty");
-//
-//            var techInspectionSortPropertyNames = new LinkedHashMap<>(TechInspection.getSortPropertyNames());
-//            techInspectionSortPropertyNames.remove("airplaneId");
-//            techInspectionSortPropertyNames.remove("airplaneAirplaneTypeName");
-//
-//            Node techInspectionsTable = createInfoWindowEntityTable(
-//                    techInspectionPropertyNames,
-//                    techInspectionSortPropertyNames,
-//                    pageInfo -> airplaneService.getTechInspections(airplane.getId(), pageInfo),
-//                    techInspectionService::deleteById,
-//                    new TechInspectionInputFormBuilder(requestExecutor),
-//                    () -> {
-//                        TechInspection techInspection = new TechInspection();
-//                        techInspection.getAirplane().setId(airplane.getId());
-//                        return techInspection;
-//                    }
-//            );
-//
-//            var repairPropertyNames = new LinkedHashMap<>(Repair.getPropertyNames());
-//            repairPropertyNames.remove("airplaneIdProperty");
-//            repairPropertyNames.remove("airplaneTypeNameProperty");
-//
-//            var repairSortPropertyNames = new LinkedHashMap<>(Repair.getSortPropertyNames());
-//            repairSortPropertyNames.remove("airplaneId");
-//            repairSortPropertyNames.remove("airplaneAirplaneTypeName");
-//
-//            Node repairTable = createInfoWindowEntityTable(
-//                    repairPropertyNames,
-//                    repairSortPropertyNames,
-//                    pageInfo -> airplaneService.getRepairs(airplane.getId(), pageInfo),
-//                    repairService::deleteById,
-//                    new RepairInputFormBuilder(requestExecutor),
-//                    () -> {
-//                        Repair repair = new Repair();
-//                        repair.getAirplane().setId(airplane.getId());
-//                        return repair;
-//                    }
-//            );
-//
-//            return EntityInfoWindowBuilder
-//                    .newInfoWindow(String.format("Самолёт №%d", airplane.getId()))
-//                    .addTab(techInspectionsTable, "Тех. осмотры")
-//                    .addTab(repairTable, "Ремонты")
-//                    .build();
-//        };
-//
-//        createEntityTable(
-//                "Самолеты",
-//                Airplane.getPropertyNames(),
-//                Airplane.getSortPropertyNames(),
-//                ServiceFactory.getAirplaneService(),
-//                new AirplaneInputFormBuilder(requestExecutor),
-//                infoWindowBuilder,
-//                new AirplaneFilterBoxBuilder(),
-//                AirplaneFilter::new
-//        );
-//    }
-//
-//    @FXML
-//    void openChiefs() {
-//        createEntityTable(
-//                "Начальники",
-//                Chief.getPropertyNames(),
-//                Chief.getSortPropertyNames(),
-//                ServiceFactory.getChiefService(),
-//                new ChiefInputFormBuilder(requestExecutor),
-//                null,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @FXML
-//    void openCities() {
-//        TicketService ticketService = ServiceFactory.getTicketService();
-//
-//        ContextWindowBuilder<City> infoWindowBuilder = city -> {
-//            FXMLLoader entityInfoLoader = FxmlLoaderFactory.createEntityInfoLoader();
-//            Parent entityInfoRoot = null;
-//            try {
-//                entityInfoRoot = entityInfoLoader.load();
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//            EntityInfoController controller = entityInfoLoader.getController();
-//
-//            requestExecutor
-//                    .makeRequest(() -> ticketService.getAverageSoldByCity(city.getId()))
-//                    .setOnSuccessAction(averageSold -> Platform.runLater(() -> {
-//                        controller.addInfoLine(String.format(
-//                                "Среднее число проданных билетов на рейсы до города: %.2f", averageSold
-//                        ));
-//                    }))
-//                    .setOnFailureAction(errorMessage -> AlertDialogFactory.showErrorAlertDialog(
-//                            "Не удалось загрузить информацию о городе",
-//                            errorMessage
-//                    ))
-//                    .submit();
-//
-//            return EntityInfoWindowBuilder
-//                    .newInfoWindow(city.getName())
-//                    .addTab(entityInfoRoot, "Доп. информация")
-//                    .build();
-//        };
-//
-//        createEntityTable(
-//                "Города",
-//                City.getPropertyNames(),
-//                City.getSortPropertyNames(),
-//                ServiceFactory.getCityService(),
-//                new CityInputFormBuilder(requestExecutor),
-//                infoWindowBuilder,
-//                null,
-//                null
-//        );
-//    }
 
     @FXML
     @SneakyThrows
     void openDepartments() {
         DepartmentService departmentService = ServiceFactory.getDepartmentService();
-        TeamService teamService = ServiceFactory.getTeamService();
+        DepartmentRegionService departmentRegionService = ServiceFactory.getDepartmentRegionService();
 
         ContextWindowBuilder<Department> infoWindowBuilder = department -> {
-            var teamPropertyNames = new LinkedHashMap<>(Team.getPropertyNames());
+            var teamPropertyNames = new LinkedHashMap<>(DepartmentRegion.getPropertyNames());
             teamPropertyNames.remove("departmentNameProperty");
-            var teamSortPropertyNames = new LinkedHashMap<>(Team.getSortPropertyNames());
+            var teamSortPropertyNames = new LinkedHashMap<>(DepartmentRegion.getSortPropertyNames());
             teamSortPropertyNames.remove("departmentName");
 
-            Node teamsTable = createInfoWindowEntityTable(
+            Node departmentRegionTable = createInfoWindowEntityTable(
                     teamPropertyNames,
                     teamSortPropertyNames,
-                    pageInfo -> departmentService.getTeams(department.getId(), pageInfo),
-                    teamService::deleteById,
-                    new TeamInputFormBuilder(requestExecutor),
+                    pageInfo -> departmentService.getDepartmentRegions(department.getId(), pageInfo),
+                    departmentRegionService::deleteById,
+                    new DepartmentRegionInputFormBuilder(requestExecutor),
                     () -> {
-                        Team team = new Team();
-                        team.getDepartment().setId(department.getId());
-                        return team;
+                        DepartmentRegion departmentRegion = new DepartmentRegion();
+                        departmentRegion.getDepartment().setId(department.getId());
+                        return departmentRegion;
                     }
             );
 
             return EntityInfoWindowBuilder
-                    .newInfoWindow(department.getName())
-                    .addTab(teamsTable, "Бригады")
+                    .newInfoWindow(department.getDepartmentName())
+                    .addTab(departmentRegionTable, "Участки")
                     .build();
         };
 
@@ -316,229 +242,6 @@ public class MainController {
                 null
         );
     }
-
-//    @FXML
-//    void openFlights() {
-//        FlightService flightService = ServiceFactory.getFlightService();
-//        TicketService ticketService = ServiceFactory.getTicketService();
-//
-//        ContextWindowBuilder<Flight> infoWindowBuilder = flight -> {
-//            var ticketPropertyNames = new LinkedHashMap<>(Ticket.getPropertyNames());
-//            ticketPropertyNames.remove("flightId");
-//            ticketPropertyNames.remove("priceProperty");
-//            var ticketSortPropertyNames = new LinkedHashMap<>(Ticket.getSortPropertyNames());
-//            ticketSortPropertyNames.remove("flightId");
-//
-//            Node ticketsTable = createInfoWindowEntityTable(
-//                    ticketPropertyNames,
-//                    ticketSortPropertyNames,
-//                    pageInfo -> flightService.getTickets(flight.getId(), pageInfo),
-//                    ticketService::deleteById,
-//                    new TicketInputFormBuilder(requestExecutor),
-//                    () -> {
-//                        Ticket ticket = new Ticket();
-//                        ticket.setFlightId(flight.getId());
-//                        return ticket;
-//                    }
-//            );
-//
-//            var entityInfoLoader = FxmlLoaderFactory.createEntityInfoLoader();
-//            Parent entityInfoList;
-//            try {
-//                entityInfoList = entityInfoLoader.load();
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            EntityInfoController entityInfoController = entityInfoLoader.getController();
-//            entityInfoController.addInfoLine(
-//                    String.format(
-//                            "Самолёт: %s (№%d)",
-//                            flight.getAirplaneTypeProperty(),
-//                            flight.getAirplaneIdProperty()
-//                    )
-//            );
-//            entityInfoController.addInfoLine(
-//                    String.format("Всего мест: %d", flight.getTotalSeatsProperty())
-//            );
-//            entityInfoController.addInfoLine(
-//                    String.format("Билетов продано: %d", flight.getTicketsSold())
-//            );
-//            entityInfoController.addInfoLine(
-//                    String.format("Билетов забронировано: %d", flight.getTicketsBooked())
-//            );
-//            entityInfoController.addInfoLine(
-//                    String.format("Билетов возвращено: %d", flight.getTicketsReturned())
-//            );
-//            if (flight.getFlightDelay() != null) {
-//                entityInfoController.addInfoLine(
-//                    String.format(
-//                            "Причина задержки рейса: %s",
-//                            FlightDelayReason.toLocalizedString(
-//                                    flight.getFlightDelay().getDelayReason()
-//                            )
-//                    )
-//                );
-//            }
-//
-//            return EntityInfoWindowBuilder
-//                    .newInfoWindow(String.format("Рейс №%d", flight.getId()))
-//                    .addTab(entityInfoList, "Доп. информация")
-//                    .addTab(ticketsTable, "Билеты")
-//                    .build();
-//        };
-//
-//        var controller = createEntityTable(
-//                "Рейсы",
-//                Flight.getPropertyNames(),
-//                Flight.getSortPropertyNames(),
-//                ServiceFactory.getFlightService(),
-//                new FlightInputFormBuilder(requestExecutor),
-//                infoWindowBuilder,
-//                new FlightFilterBoxBuilder(),
-//                FlightFilter::new
-//        );
-//
-//        controller.addContextMenuAction(
-//            "Отменить",
-//            flight -> {
-//                Runnable dialogConfirmationAction = () -> {
-//                    flight.setIsCancelled(true);
-//                    requestExecutor.makeRequest(() -> flightService.save(flight))
-//                        .setOnSuccessAction(responseBody -> controller.refreshTableContents(
-//                                String.format("Рейс №%d успешно отменён", flight.getId())
-//                        )).setOnFailureAction(errorMessage -> AlertDialogFactory.showErrorAlertDialog(
-//                                String.format("Произошла ошибка при отмене рейса №%d", flight.getId()),
-//                                errorMessage
-//                        )).submit();
-//                };
-//
-//                AlertDialogFactory.showConfirmationDialog(
-//                        "Отмена рейса",
-//                        String.format("Вы действительно хотите отменить рейс №%d?", flight.getId()),
-//                        dialogConfirmationAction
-//                );
-//            }
-//        );
-//
-//        FlightDelayFormBuilder flightDelayFormBuilder = new FlightDelayFormBuilder(requestExecutor);
-//        controller.addContextMenuWindowAction(
-//                "Задержать",
-//                flight -> flightDelayFormBuilder.createFlightDelayFormWindow(
-//                        flight,
-//                        () -> controller.refreshTableContents(
-//                                String.format("Рейс №%d успешно задержан", flight.getId())
-//                        )
-//                )
-//        );
-//
-//    }
-//
-//    @FXML
-//    void openMedExams() {
-//        createEntityTable(
-//                "Мед. осмотры",
-//                MedicalExamination.getPropertyNames(),
-//                MedicalExamination.getSortPropertyNames(),
-//                ServiceFactory.getMedicalExaminationService(),
-//                new MedicalExaminationInputFormBuilder(requestExecutor),
-//                null,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @FXML
-//    void openRepairs() {
-//        createEntityTable(
-//                "Ремонты",
-//                Repair.getPropertyNames(),
-//                Repair.getSortPropertyNames(),
-//                ServiceFactory.getRepairService(),
-//                new RepairInputFormBuilder(requestExecutor),
-//                null,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @FXML
-//    @SneakyThrows
-//    void openTeams() {
-//        TeamService teamService = ServiceFactory.getTeamService();
-//        EmployeeService employeeService = ServiceFactory.getEmployeeService();
-//
-//        ContextWindowBuilder<Team> infoWindowBuilder = team -> {
-//            var employeePropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
-//            employeePropertyNames.remove("departmentNameProperty");
-//            employeePropertyNames.remove("teamNameProperty");
-//            var employeeSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
-//            employeeSortPropertyNames.remove("teamDepartmentName");
-//            employeeSortPropertyNames.remove("teamName");
-//
-//            Node employeeTable = createInfoWindowEntityTable(
-//                    employeePropertyNames,
-//                    employeeSortPropertyNames,
-//                    pageInfo -> teamService.getEmployees(team.getId(), pageInfo),
-//                    employeeService::deleteById,
-//                    new EmployeeInputFormBuilder(requestExecutor),
-//                    () -> {
-//                        Employee employee = new Employee();
-//                        employee.getTeam().setId(team.getId());
-//                        return employee;
-//                    }
-//            );
-//
-//            return EntityInfoWindowBuilder
-//                    .newInfoWindow(String.format("Бригада %s", team.getName()))
-//                    .addTab(employeeTable, "Работники")
-//                    .build();
-//        };
-//
-//        createEntityTable(
-//                "Бригады",
-//                Team.getPropertyNames(),
-//                Team.getSortPropertyNames(),
-//                ServiceFactory.getTeamService(),
-//                new TeamInputFormBuilder(requestExecutor),
-//                infoWindowBuilder,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @FXML
-//    void openTechInspections() {
-//        createEntityTable(
-//                "Тех. осмотры",
-//                TechInspection.getPropertyNames(),
-//                TechInspection.getSortPropertyNames(),
-//                ServiceFactory.getTechInspectionService(),
-//                new TechInspectionInputFormBuilder(requestExecutor),
-//                null,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @FXML
-//    void openTickets() {
-//        var sortProperties = new LinkedHashMap<>(Ticket.getSortPropertyNames());
-//        sortProperties.remove("passengerName");
-//        sortProperties.remove("passengerBirthDate");
-//        sortProperties.remove("flightId");
-//
-//        createEntityTable(
-//                "Билеты",
-//                Ticket.getPropertyNames(),
-//                sortProperties,
-//                ServiceFactory.getTicketService(),
-//                new TicketInputFormBuilder(requestExecutor),
-//                null,
-//                new TicketFilterBoxBuilder(),
-//                TicketFilter::new
-//        );
-//    }
 
     private void setStatusBarMessage(String message) {
         Platform.runLater(() -> {
