@@ -8,6 +8,7 @@ import app.gui.forms.input.impl.*;
 import app.model.*;
 import app.services.DepartmentRegionService;
 import app.services.DepartmentService;
+import app.services.EmployeeService;
 import app.services.Service;
 import app.utils.LocalDateFormatter;
 import app.utils.RequestExecutor;
@@ -47,15 +48,49 @@ public class MainController {
 
     @FXML
     void openDepartmentRegions() {
+        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        ContextWindowBuilder<DepartmentRegion> infoWindowBuilder = departmentRegion -> {
+            var employeesPropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
+            var employeesSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
+
+            Node employeesTable = createInfoWindowEntityTable(
+                    employeesPropertyNames,
+                    employeesSortPropertyNames,
+                    pageInfo -> employeeService.getDepartmentRegionEmployees(departmentRegion.getId(), pageInfo),
+                    employeeService::deleteById,
+                    new EmployeeInputFormBuilder(requestExecutor),
+                    null
+            );
+
+            return EntityInfoWindowBuilder
+                    .newInfoWindow(String.format("Участок №%d", departmentRegion.getId()))
+                    .addTab(employeesTable, "Сотрудники")
+                    .build();
+        };
         createEntityTable(
                 "Участки",
                 DepartmentRegion.getPropertyNames(),
                 DepartmentRegion.getSortPropertyNames(),
                 ServiceFactory.getDepartmentRegionService(),
                 new DepartmentRegionInputFormBuilder(requestExecutor),
-                null,
+                infoWindowBuilder,
                 null,
                 null
+        );
+    }
+
+    @FXML
+    void openBrigadiers() {
+        createEntityTable(
+                "Бригадиры",
+                Brigadier.getPropertyNames(),
+                Brigadier.getSortPropertyNames(),
+                ServiceFactory.getBrigadierService(),
+                new BrigadierInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null,
+                false
         );
     }
 
@@ -83,7 +118,8 @@ public class MainController {
                 new DepartmentChiefInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null
+                null,
+                false
         );
     }
 
@@ -97,7 +133,8 @@ public class MainController {
                 new DepartmentRegionChiefInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null
+                null,
+                false
         );
     }
 
@@ -111,7 +148,8 @@ public class MainController {
                 new MasterInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null
+                null,
+                false
         );
     }
 
@@ -125,7 +163,8 @@ public class MainController {
                 new TesterInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null
+                null,
+                false
         );
     }
 
@@ -300,7 +339,8 @@ public class MainController {
                 null,
                 false,
                 this::setStatusBarMessage,
-                filterBox
+                filterBox,
+                true
         );
 
         return controller;
@@ -330,10 +370,100 @@ public class MainController {
                 newEntitySupplier,
                 true,
                 this::setStatusBarMessage,
-                null
+                null,
+                true
         );
 
         return table;
+    }
+
+    @SneakyThrows
+    private <T extends Entity> Node createInfoWindowEntityTable(
+            Map<String, String> entityPropertyNames,
+            Map<String, String> entitySortPropertyNames,
+            EntityTableController.EntitySource<T> entitySource,
+            EntityTableController.EntityRemover<T> entityRemover,
+            EntityInputFormBuilder<T> inputFormBuilder,
+            Supplier<T> newEntitySupplier,
+            boolean isUpdatable
+    ) {
+
+        FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
+        Node table = tableLoader.load();
+
+        EntityTableController<T> entityTableController = tableLoader.getController();
+        entityTableController.setEntitySource(entitySource);
+        entityTableController.setEntityRemover(entityRemover);
+        entityTableController.setRequestExecutor(requestExecutor);
+        entityTableController.init(
+                entityPropertyNames,
+                entitySortPropertyNames,
+                inputFormBuilder,
+                newEntitySupplier,
+                true,
+                this::setStatusBarMessage,
+                null,
+                isUpdatable
+        );
+
+        return table;
+    }
+
+    @SneakyThrows
+    private <T extends Entity> EntityTableController<T> createEntityTable(
+            String tableName,
+            Map<String, String> entityPropertyNames,
+            Map<String, String> entitySortPropertyNames,
+            Service<T> entityService,
+            EntityInputFormBuilder<T> inputFormBuilder,
+            ContextWindowBuilder<T> infoWindowBuilder,
+            FilterBoxBuilder<T> filterBoxBuilder,
+            Supplier<Filter<T>> newFilterSupplier,
+            boolean isUpdatable
+    ) {
+        FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
+        Node table = tableLoader.load();
+
+        Tab tableTab = new Tab(tableName);
+        tableTab.setContent(table);
+        tableTab.setOnClosed(event -> {
+            if (contentTabPane.getTabs().isEmpty()) {
+                contentTabPane.getTabs().add(defaultTab);
+            }
+        });
+
+        contentTabPane.getTabs().remove(defaultTab);
+        contentTabPane.getTabs().add(tableTab);
+        contentTabPane.getSelectionModel().select(tableTab);
+
+        EntityTableController<T> controller = tableLoader.getController();
+        controller.setInfoWindowBuilder(infoWindowBuilder);
+
+        controller.setEntityRemover(entityService::deleteById);
+
+        Node filterBox = null;
+        if (filterBoxBuilder != null && newFilterSupplier != null) {
+            Filter<T> filter = newFilterSupplier.get();
+            filterBox = filterBoxBuilder.buildFilterBox(filter);
+            controller.setEntitySource(pageInfo -> entityService.search(filter, pageInfo));
+        } else {
+            controller.setEntitySource(entityService::getAll);
+        }
+
+        controller.setRequestExecutor(requestExecutor);
+
+        controller.init(
+                entityPropertyNames,
+                entitySortPropertyNames,
+                inputFormBuilder,
+                null,
+                false,
+                this::setStatusBarMessage,
+                filterBox,
+                isUpdatable
+        );
+
+        return controller;
     }
 
 }

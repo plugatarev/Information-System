@@ -64,11 +64,11 @@ public class EntityTableController<T extends Entity> {
         this.entityRemover = entityRemover;
     }
 
-    private void fillContextMenu() {
+    private void fillContextMenu(boolean isUpdatable) {
         contextMenu = new ContextMenu();
 
         MenuItem infoItem = new MenuItem("Подробнее");
-        MenuItem changeItem = new MenuItem("Изменить");
+        MenuItem changeItem = isUpdatable ? new MenuItem("Изменить") : null;
         MenuItem deleteItem = new MenuItem("Удалить");
 
         infoItem.setOnAction(event -> {
@@ -81,24 +81,26 @@ public class EntityTableController<T extends Entity> {
             }
         });
 
-        changeItem.setOnAction(event -> {
-            T entity = entityTable.getSelectionModel().getSelectedItem();
-            if (entity != null) {
-                final T entityClone = (T) entity.clone();
-                entityClone.calculateProperties();
-                SuccessAction successAction = () -> refreshTableContents("Успешно изменено");
-                Supplier<Stage> windowBuilder = () -> {
-                    if (isContextWindow) {
-                        return inputFormBuilder.buildContextEditFormWindow(entityClone, successAction);
-                    }
-                    return inputFormBuilder.buildEditFormWindow(entityClone, successAction);
-                };
-                openWindow(
-                        windowBuilder,
-                        String.format("Не удалось открыть форму изменения сущности №%d", entity.getId())
-                );
-            }
-        });
+        if (changeItem != null) {
+            changeItem.setOnAction(event -> {
+                T entity = entityTable.getSelectionModel().getSelectedItem();
+                if (entity != null) {
+                    final T entityClone = (T) entity.clone();
+                    entityClone.calculateProperties();
+                    SuccessAction successAction = () -> refreshTableContents("Успешно изменено");
+                    Supplier<Stage> windowBuilder = () -> {
+                        if (isContextWindow) {
+                            return inputFormBuilder.buildContextEditFormWindow(entityClone, successAction);
+                        }
+                        return inputFormBuilder.buildEditFormWindow(entityClone, successAction);
+                    };
+                    openWindow(
+                            windowBuilder,
+                            String.format("Не удалось открыть форму изменения сущности №%d", entity.getId())
+                    );
+                }
+            });
+        }
 
         deleteItem.setOnAction(event -> {
             T entity = entityTable.getSelectionModel().getSelectedItem();
@@ -111,7 +113,8 @@ public class EntityTableController<T extends Entity> {
             contextMenu.getItems().add(infoItem);
         }
 
-        contextMenu.getItems().addAll(changeItem, deleteItem);
+        if (changeItem != null) contextMenu.getItems().add(changeItem);
+        contextMenu.getItems().add(deleteItem);
         entityTable.setContextMenu(contextMenu);
     }
 
@@ -195,7 +198,8 @@ public class EntityTableController<T extends Entity> {
             Supplier<T> newEntitySupplier,
             boolean isContextWindow,
             Consumer<String> statusBarMessageAcceptor,
-            Node filterBox
+            Node filterBox,
+            boolean isUpdatable
     ) {
 
         searchBox.managedProperty().bind(searchBox.visibleProperty());
@@ -268,7 +272,7 @@ public class EntityTableController<T extends Entity> {
         entityTable.getColumns().addAll(columns);
         entityTable.setItems(entityObservableList);
 
-        fillContextMenu();
+        fillContextMenu(isUpdatable);
 
         Platform.runLater(this::refreshTableContents);
     }

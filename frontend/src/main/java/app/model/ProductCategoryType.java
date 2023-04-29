@@ -24,7 +24,7 @@ public class ProductCategoryType extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        categoryNameProperty = category.getName();
+        if (category != null) categoryNameProperty = category.getName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

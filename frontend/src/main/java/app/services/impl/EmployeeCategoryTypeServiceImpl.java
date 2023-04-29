@@ -9,6 +9,6 @@ public class EmployeeCategoryTypeServiceImpl
         implements EmployeeCategoryTypeService {
 
     public EmployeeCategoryTypeServiceImpl(String baseUrl) {
-        super(EmployeeCategoryTypeServiceApi.class, EmployeeCategoryType.class, baseUrl, "employeeCategory");
+        super(EmployeeCategoryTypeServiceApi.class, EmployeeCategoryType.class, baseUrl, "employeeCategoryType");
     }
 }

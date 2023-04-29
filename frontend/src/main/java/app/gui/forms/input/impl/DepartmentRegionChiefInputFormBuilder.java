@@ -4,7 +4,6 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.DepartmentRegionChief;
-import app.services.EmployeeService;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -15,11 +14,10 @@ public class DepartmentRegionChiefInputFormBuilder extends AbstractEntityInputFo
 
     @Override
     protected void fillInputForm(DepartmentRegionChief departmentRegionChief, FormType formType, boolean isContextWindow, EntityInputFormController<DepartmentRegionChief> controller) {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
 
         ChoiceItemSupplier<Long> engineerIdSupplier = makeChoiceItemSupplierFromEntities(
-                employeeService,
-                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineer"),
+                ServiceFactory.getEmployeeService(),
+                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineering_staff"),
                 t -> new ChoiceItem<>(t.getId(), t.getFirstName() + t.getSecondName()),
                 "Не удалось загрузить список инженеров"
         );

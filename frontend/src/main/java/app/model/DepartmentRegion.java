@@ -11,11 +11,9 @@ import java.util.Map;
 public class DepartmentRegion extends Entity {
     private String regionName;
     private Department department = new Department();
-    private Brigade collectingBrigade = new Brigade();
     private DepartmentRegionChief chief = new DepartmentRegionChief();
 
     private String departmentNameProperty;
-    private String collectionBrigadeNameProperty;
     private String chiefNameProperty;
 
     @Override
@@ -23,16 +21,14 @@ public class DepartmentRegion extends Entity {
         var clone = (DepartmentRegion) super.clone();
         clone.setChief(chief.clone());
         clone.setDepartment(department.clone());
-        clone.setCollectingBrigade(collectingBrigade.clone());
         return clone;
     }
 
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
-        departmentNameProperty = department.getDepartmentName();
-        collectionBrigadeNameProperty = collectingBrigade.getBrigadeName();
+        if (chief != null) chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
+        if (department != null) departmentNameProperty = department.getDepartmentName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -42,14 +38,12 @@ public class DepartmentRegion extends Entity {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("regionName", "Участок");
         propertyNames.put("departmentNameProperty", "Цех");
-        propertyNames.put("collectionBrigadeNameProperty", "Собирающая бригада");
-        propertyNames.put("chiefNameProperty", "Начальник");
+//        propertyNames.put("chiefNameProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("regionName", "Участок");
         sortPropertyNames.put("departmentNameProperty", "Цех");
-        sortPropertyNames.put("collectionBrigadeNameProperty", "Собирающая бригада");
-        sortPropertyNames.put("chiefNameProperty", "Начальник");
+//        sortPropertyNames.put("chiefNameProperty", "Начальник");
     }
 
     public static Map<String, String> getPropertyNames() {

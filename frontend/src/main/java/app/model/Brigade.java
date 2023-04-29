@@ -27,8 +27,8 @@ public class Brigade extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        departmentRegionNameProperty = departmentRegion.getRegionName();
-        brigadierNameProperty = brigadier.getFirstName() + " " + brigadier.getSecondName();
+        if (departmentRegion != null) departmentRegionNameProperty = departmentRegion.getRegionName();
+        if (brigadier != null) brigadierNameProperty = brigadier.getFirstName() + " " + brigadier.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

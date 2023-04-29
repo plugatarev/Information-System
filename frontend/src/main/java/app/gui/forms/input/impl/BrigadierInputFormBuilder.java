@@ -17,18 +17,18 @@ public class BrigadierInputFormBuilder extends AbstractEntityInputFormBuilder<Br
     protected void fillInputForm(Brigadier brigadier, FormType formType, boolean isContextWindow, EntityInputFormController<Brigadier> controller) {
         EmployeeService employeeService = ServiceFactory.getEmployeeService();
 
-        ChoiceItemSupplier<Long> engineerIdSupplier = makeChoiceItemSupplierFromEntities(
+        ChoiceItemSupplier<Long> brigadierIdSupplier = makeChoiceItemSupplierFromEntities(
                 employeeService,
-                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineer"),
+                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("worker"),
                 t -> new ChoiceItem<>(t.getId(), t.getFirstName() + t.getSecondName()),
-                "Не удалось загрузить список инженеров"
+                "Не удалось загрузить список работников"
         );
 
         controller.addChoiceBox(
-                "Инженер",
+                "Работник",
                 brigadier.getId(),
                 brigadier::setId,
-                engineerIdSupplier
+                brigadierIdSupplier
         );
     }
 

@@ -11,21 +11,21 @@ import java.util.Map;
 public class Department extends Entity {
 
     private String departmentName;
-    private DepartmentChief chief = new DepartmentChief();
+    private DepartmentChief departmentChief = new DepartmentChief();
 
     private String chiefNameProperty;
 
     @Override
     public Department clone() {
         var clone = (Department) super.clone();
-        clone.setChief(chief.clone());
+        clone.setDepartmentChief(departmentChief.clone());
         return clone;
     }
 
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
+        if (departmentChief != null) chiefNameProperty = departmentChief.getFirstName() + " " + departmentChief.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

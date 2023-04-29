@@ -34,9 +34,9 @@ public class Employee extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        employeeCategoryTypeProperty = employeeCategoryType.getName();
-        employmentDateProperty = LocalDateFormatter.getFormattedDateTime(employmentDate);
-        dismissalDateProperty = LocalDateFormatter.getFormattedDateTime(dismissalDate);
+        if (employeeCategoryType != null) employeeCategoryTypeProperty = employeeCategoryType.getName();
+        if (employmentDate != null) employmentDateProperty = LocalDateFormatter.getFormattedDateTime(employmentDate);
+        if (dismissalDate != null) dismissalDateProperty = LocalDateFormatter.getFormattedDateTime(dismissalDate);
     }
     
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

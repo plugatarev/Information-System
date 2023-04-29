@@ -17,6 +17,7 @@ public class LocalDateFormatter {
     }
 
     public static String getFormattedDate(Date date) {
+        if (date == null) return "Отсутствует";
         return dateFormatter.format(date);
     }
 
@@ -25,6 +26,7 @@ public class LocalDateFormatter {
     }
 
     public static String getFormattedDateTime(Date timestamp) {
+        if (timestamp == null) return "Отсутствует";
         return dateTimeFormatter.format(timestamp);
     }
 

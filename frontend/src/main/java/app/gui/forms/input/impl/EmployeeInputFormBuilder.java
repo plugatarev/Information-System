@@ -59,11 +59,13 @@ public class EmployeeInputFormBuilder extends AbstractEntityInputFormBuilder<Emp
                 employee::setEmploymentDate
         );
 
-        controller.addDateField(
-                "Дата увольнения",
-                employee.getDismissalDate(),
-                employee::setDismissalDate
-        );
+        if (formType == FormType.EDIT_FORM) {
+            controller.addDateField(
+                    "Дата увольнения",
+                    employee.getDismissalDate(),
+                    employee::setDismissalDate
+            );
+        }
     }
 
     @Override

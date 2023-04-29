@@ -29,10 +29,10 @@ public class LaboratoryOrder extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        laboratoryOrderNumberProperty = product.getId();
-        productTypeProperty = product.getCategoryType().getName();
-        productCustomerProperty = product.getCustomer();
-        laboratoryNameProperty = laboratory.getLaboratoryName();
+        if (product != null) laboratoryOrderNumberProperty = product.getId();
+        if (product != null && product.getCategoryType() != null) productTypeProperty = product.getCategoryType().getName();
+        if (product != null) productCustomerProperty = product.getCustomer();
+        if (laboratory != null) laboratoryNameProperty = laboratory.getLaboratoryName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -40,14 +40,14 @@ public class LaboratoryOrder extends Entity {
 
     static {
         propertyNames.putAll(Entity.getPropertyNames());
-        propertyNames.put("orderNumberProperty", "Номер заказа");
-        propertyNames.put("employeeCategoryNameProperty", "Тип изделия");
+        propertyNames.put("laboratoryOrderNumberProperty", "Номер заказа");
+        propertyNames.put("productTypeProperty", "Тип изделия");
         propertyNames.put("productCustomerProperty", "Заказчик");
         propertyNames.put("laboratoryNameProperty", "Лаборатория");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
-        sortPropertyNames.put("orderNumberProperty", "Номер заказа");
-        sortPropertyNames.put("employeeCategoryNameProperty", "Тип изделия");
+        sortPropertyNames.put("laboratoryOrderNumberProperty", "Номер заказа");
+        sortPropertyNames.put("productTypeProperty", "Тип изделия");
         sortPropertyNames.put("productCustomerProperty", "Заказчик");
         sortPropertyNames.put("laboratoryNameProperty", "Лаборатория");
     }

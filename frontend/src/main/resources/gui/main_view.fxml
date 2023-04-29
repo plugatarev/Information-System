@@ -24,7 +24,7 @@
                   </Label>
                   <Accordion>
                     <panes>
-                      <TitledPane text="Персонал">
+                      <TitledPane text="Предприятие">
                            <content>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
@@ -49,6 +49,11 @@
                                        </VBox.margin>
                                     </Button>
                                     <Button fx:id="departmentRegionChiefButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openDepartmentRegionChiefs" text="Начальники участков">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="brigadierButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openBrigadiers" text="Бригадиры">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>

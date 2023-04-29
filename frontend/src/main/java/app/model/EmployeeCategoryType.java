@@ -24,7 +24,7 @@ public class EmployeeCategoryType extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        employeeCategoryNameProperty = employeeCategory.getName();
+        if (employeeCategory != null) employeeCategoryNameProperty = employeeCategory.getName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();

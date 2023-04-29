@@ -22,8 +22,8 @@ public class DepartmentRegionInputFormBuilder extends AbstractEntityInputFormBui
 
         ChoiceItemSupplier<Long> chiefIdSupplier = makeChoiceItemSupplierFromEntities(
                 ServiceFactory.getDepartmentRegionChiefService(),
-                c -> new ChoiceItem<>(c.getId(), c.getFirstName() + c.getSecondName()),
-                "Не удалось загрузить список начальников"
+                c -> new ChoiceItem<>(c.getId(), c.getFirstName() + " " + c.getSecondName()),
+                "Не удалось загрузить список инженеров"
         );
 
         ChoiceItemSupplier<Long> departmentIdSupplier = makeChoiceItemSupplierFromEntities(

@@ -22,7 +22,6 @@ import javafx.util.converter.IntegerStringConverter;
 import lombok.SneakyThrows;
 
 import java.text.ParseException;
-import java.time.Instant;
 import java.util.*;
 import java.util.function.UnaryOperator;
 
@@ -147,19 +146,6 @@ public class EntityInputFormController<T> {
         );
     }
 
-    public void addDateTimeField(
-            String name,
-            Date initFieldValue,
-            EntityFieldSetter<Date> fieldSetter
-    ) {
-        addDateTimePicker(
-                name,
-                initFieldValue,
-                fieldSetter,
-                false
-        );
-    }
-
     private void addDateTimePicker(
             String name,
             Date initFieldValue,
@@ -167,12 +153,11 @@ public class EntityInputFormController<T> {
             final boolean isDateOnly
     ) {
         TextField dateTimeField = new TextField();
-        Date currentDate = initFieldValue == null ? Date.from(Instant.now()) : initFieldValue;
-        fieldSetter.setField(currentDate);
+        fieldSetter.setField(initFieldValue);
 
         String currentDateText = isDateOnly ?
-                LocalDateFormatter.getFormattedDate(currentDate) :
-                LocalDateFormatter.getFormattedDateTime(currentDate);
+                LocalDateFormatter.getFormattedDate(initFieldValue) :
+                LocalDateFormatter.getFormattedDateTime(initFieldValue);
         dateTimeField.setText(currentDateText);
 
         dateTimeField.focusedProperty().addListener((observable, oldValue, newValue) -> {

@@ -19,7 +19,7 @@ public class DepartmentChiefInputFormBuilder extends AbstractEntityInputFormBuil
 
         ChoiceItemSupplier<Long> engineerIdSupplier = makeChoiceItemSupplierFromEntities(
                 employeeService,
-                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineer"),
+                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineering_staff"),
                 t -> new ChoiceItem<>(t.getId(), t.getFirstName() + " " + t.getSecondName()),
                 "Не удалось загрузить список инженеров"
         );

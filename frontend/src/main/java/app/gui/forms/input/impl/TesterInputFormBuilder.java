@@ -19,8 +19,9 @@ public class TesterInputFormBuilder extends AbstractEntityInputFormBuilder<Teste
 
         ChoiceItemSupplier<Long> employeeIdSupplier = makeChoiceItemSupplierFromEntities(
                 employeeService,
+                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("laboratory_tester"),
                 t -> new ChoiceItem<>(t.getId(), t.getFirstName() + t.getSecondName()),
-                "Не удалось загрузить список работников"
+                "Не удалось загрузить список тестировщиков"
         );
 
         controller.addChoiceBox(

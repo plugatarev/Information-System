@@ -27,8 +27,8 @@ public class Test extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        equipmentSerialNumberProperty = equipment.getSerialNumber();
-        testerNameProperty = tester.getFirstName() + " " + tester.getSecondName();
+        if (equipment != null) equipmentSerialNumberProperty = equipment.getSerialNumber();
+        if (tester != null) testerNameProperty = tester.getFirstName() + " " + tester.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
@@ -37,12 +37,13 @@ public class Test extends Entity {
     static {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("equipmentSerialNumberProperty", "Оборудование");
-        propertyNames.put("testerFirstNameProperty", "Имя тестировщика");
         propertyNames.put("testerNameProperty", "Тестировщик");
+        propertyNames.put("description", "Описание эксперимента");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("equipmentSerialNumberProperty", "Оборудование");
         sortPropertyNames.put("testerNameProperty", "Тестировщик");
+        propertyNames.put("description", "Описание эксперимента");
     }
 
     public static Map<String, String> getPropertyNames() {

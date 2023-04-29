@@ -22,9 +22,15 @@ public class BrigadeInputFormBuilder extends AbstractEntityInputFormBuilder<Brig
     ) {
 
         ChoiceItemSupplier<Long> brigadierIdSupplier = makeChoiceItemSupplierFromEntities(
-                ServiceFactory.getBrigadeService(),
-                c -> new ChoiceItem<>(c.getId(), c.getBrigadierNameProperty()),
-                "Не удалось загрузить список бригад"
+                ServiceFactory.getBrigadierService(),
+                c -> new ChoiceItem<>(c.getId(), c.getFirstName() + " " + c.getSecondName()),
+                "Не удалось загрузить список бригадиров"
+        );
+
+        ChoiceItemSupplier<Long> departmentRegionIdSupplier = makeChoiceItemSupplierFromEntities(
+                ServiceFactory.getDepartmentRegionService(),
+                c -> new ChoiceItem<>(c.getId(),  c.getRegionName()),
+                "Не удалось загрузить список участков"
         );
 
         if (formType == FormType.CREATION_FORM) {
@@ -40,6 +46,13 @@ public class BrigadeInputFormBuilder extends AbstractEntityInputFormBuilder<Brig
                 brigade.getBrigadier().getId(),
                 value -> brigade.getBrigadier().setId(value),
                 brigadierIdSupplier
+        );
+
+        controller.addChoiceBox(
+                "Участок",
+                brigade.getDepartmentRegion().getId(),
+                value -> brigade.getDepartmentRegion().setId(value),
+                departmentRegionIdSupplier
         );
     }
 

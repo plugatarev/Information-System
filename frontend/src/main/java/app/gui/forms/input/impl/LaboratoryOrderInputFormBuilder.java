@@ -27,7 +27,7 @@ public class LaboratoryOrderInputFormBuilder extends AbstractEntityInputFormBuil
 
         ChoiceItemSupplier<Long> productIdSupplier = makeChoiceItemSupplierFromEntities(
                 productService,
-                t -> new ChoiceItem<>(t.getId(), t.getCategoryTypeProperty() + " " + t.getCustomer()),
+                t -> new ChoiceItem<>(t.getId(), "Номер заказа=" + t.getId() + " " + t.getCustomer()),
                 "Не удалось загрузить список изделий"
         );
 
