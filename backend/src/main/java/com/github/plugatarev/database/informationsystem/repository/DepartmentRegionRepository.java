@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepartmentRegionRepository extends JpaRepository<DepartmentRegion, Long> {
-    boolean existsByRegionName(String regionName);
 }

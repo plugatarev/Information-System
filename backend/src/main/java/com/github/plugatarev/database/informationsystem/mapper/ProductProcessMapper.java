@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        injectionStrategy = InjectionStrategy.FIELD,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductProcessMapper extends IMapper<ProductProcess, ProductProcessDto> {
     @Override

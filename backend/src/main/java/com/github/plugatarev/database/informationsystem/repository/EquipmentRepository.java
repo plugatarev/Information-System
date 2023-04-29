@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
-    boolean existsBySerialNumber(String serialNumber);
 }

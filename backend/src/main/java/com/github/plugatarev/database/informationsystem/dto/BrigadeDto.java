@@ -4,8 +4,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class BrigadeDto extends AbstractDto {
     private String brigadeName;
     private BrigadierDto brigadier;

@@ -26,4 +26,8 @@ public class DepartmentRegionService extends AbstractService<DepartmentRegion, D
     protected IMapper<DepartmentRegion, DepartmentRegionDto> getMapper() {
         return departmentRegionMapper;
     }
+
+//    public Page<Employee> getEmployees(Long id, Pageable pageable) {
+//        return departmentRegionRepository.getEmployees(id, pageable);
+//    }
 }

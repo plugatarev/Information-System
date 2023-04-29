@@ -7,7 +7,6 @@ import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -45,7 +44,6 @@ public abstract class AbstractService<E extends AbstractEntity, DTO extends Abst
     }
 
     @Override
-    @Transactional
     public DTO create(DTO dto) {
         var entity = getMapper().toEntity(dto);
         entity = getRepository().save(entity);

@@ -1,9 +1,7 @@
 package com.github.plugatarev.database.informationsystem.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,8 +9,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "employee")
 @Inheritance(strategy = InheritanceType.JOINED)
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Employee extends AbstractEntity {

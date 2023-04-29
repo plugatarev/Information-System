@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractEntity {
     @Id
+    @Access(value = AccessType.PROPERTY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

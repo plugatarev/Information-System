@@ -8,9 +8,11 @@ import com.github.plugatarev.database.informationsystem.repository.EmployeeRepos
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class EmployeeService extends AbstractService<Employee, EmployeeDto> {
 
     private final EmployeeRepository employeeRepository;

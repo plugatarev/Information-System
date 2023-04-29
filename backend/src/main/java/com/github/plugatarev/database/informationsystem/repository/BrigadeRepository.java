@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BrigadeRepository extends JpaRepository<Brigade, Long> {
-    boolean existsByBrigadeName(String name);
 }

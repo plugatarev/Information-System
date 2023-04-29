@@ -14,6 +14,14 @@ public class DepartmentRegionController extends AbstractController<DepartmentReg
 
     private final DepartmentRegionService departmentRegionService;
 
+//    @GetMapping("/{id}/employees")
+//    public ResponseEntity<Page<Employee>> getEmployees(@PathVariable Long id,
+//                                                        Pageable pageable) {
+//
+//        return ResponseEntity.ok(departmentRegionService.getEmployees(id, pageable));
+//    }
+
+
     @Override
     protected Service<DepartmentRegionDto> getService() {
         return departmentRegionService;
