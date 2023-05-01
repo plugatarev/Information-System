@@ -3,7 +3,7 @@ package com.github.plugatarev.database.informationsystem.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,5 +12,5 @@ public class ProductProcessDto extends AbstractDto {
     private String descriptionWork;
     private BrigadeDto collectingBrigade;
     private ProductStatusDto status;
-    private LocalDate releaseDate;
+    private Date releaseDate;
 }

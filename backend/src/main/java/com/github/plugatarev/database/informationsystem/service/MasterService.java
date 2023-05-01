@@ -8,6 +8,8 @@ import com.github.plugatarev.database.informationsystem.mapper.MasterMapper;
 import com.github.plugatarev.database.informationsystem.repository.EmployeeRepository;
 import com.github.plugatarev.database.informationsystem.repository.MasterRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +50,13 @@ public class MasterService extends AbstractService<Master, MasterDto> {
         master.setDismissalDate(employee.getDismissalDate());
         master.setEmployeeCategoryType(employee.getEmployeeCategoryType());
         return master;
+    }
+
+    public Page<MasterDto> getDepartmentMasters(Long departmentId, Pageable pageable) {
+        return masterRepository.findMastersByDepartment(departmentId, pageable).map(masterMapper::toDto);
+    }
+
+    public Page<MasterDto> getDepartmentRegionMasters(Long departmentRegionId, Pageable pageable) {
+        return masterRepository.findMastersByDepartmentRegion(departmentRegionId, pageable).map(masterMapper::toDto);
     }
 }

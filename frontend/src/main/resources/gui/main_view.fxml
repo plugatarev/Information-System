@@ -91,6 +91,11 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
+                                    <Button fx:id="productProcessButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProductProcess" text="Учет изделий">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
                                     <Button fx:id="laboratoryOrderButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLaboratoryOrders" text="Тестирование">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

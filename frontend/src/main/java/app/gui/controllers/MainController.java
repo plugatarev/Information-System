@@ -86,11 +86,24 @@ public class MainController {
                     null
             );
 
+            var mastersPropertyNames = new LinkedHashMap<>(Master.getPropertyNames());
+            var mastersSortPropertyNames = new LinkedHashMap<>(Master.getSortPropertyNames());
+
+            Node masterTable = createInfoWindowEntityTable(
+                    mastersPropertyNames,
+                    mastersSortPropertyNames,
+                    pageInfo -> ServiceFactory.getMasterService().getDepartmentRegionMasters(departmentRegion.getId(), pageInfo),
+                    ServiceFactory.getMasterService()::deleteById,
+                    new MasterInputFormBuilder(requestExecutor),
+                    null
+            );
+
             return EntityInfoWindowBuilder
                     .newInfoWindow(departmentRegion.getRegionName())
                     .addTab(brigadeTable, "Бригады")
                     .addTab(employeeTable, "Сотрудники")
                     .addTab(productTable, "Продукты")
+                    .addTab(masterTable, "Мастера")
                     .build();
         };
         createEntityTable(
@@ -243,6 +256,20 @@ public class MainController {
     }
 
     @FXML
+    void openProductProcess() {
+        createEntityTable(
+                "Учет изделий",
+                ProductProcess.getPropertyNames(),
+                Product.getSortPropertyNames(),
+                ServiceFactory.getProductProcessService(),
+                new ProductProcessInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
+    }
+
+    @FXML
     void openLaboratoryOrders() {
         createEntityTable(
                 "Заказы тестирования",
@@ -343,11 +370,24 @@ public class MainController {
                     null
             );
 
+            var mastersPropertyNames = new LinkedHashMap<>(Master.getPropertyNames());
+            var mastersSortPropertyNames = new LinkedHashMap<>(Master.getSortPropertyNames());
+
+            Node masterTable = createInfoWindowEntityTable(
+                    mastersPropertyNames,
+                    mastersSortPropertyNames,
+                    pageInfo -> ServiceFactory.getMasterService().getDepartmentMasters(department.getId(), pageInfo),
+                    ServiceFactory.getMasterService()::deleteById,
+                    new MasterInputFormBuilder(requestExecutor),
+                    null
+            );
+
             return EntityInfoWindowBuilder
                     .newInfoWindow(department.getDepartmentName())
                     .addTab(departmentRegionTable, "Участки")
                     .addTab(employeeTable, "Сотрудники")
                     .addTab(productTable, "Продукты")
+                    .addTab(masterTable, "Мастера")
                     .build();
         };
 

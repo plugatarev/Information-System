@@ -37,6 +37,14 @@ public class ServiceFactory {
         return new DepartmentServiceImpl(SERVER_HOSTNAME);
     }
 
+    public ProductStatusService getProductStatusService() {
+        return new ProductStatusServiceImpl(SERVER_HOSTNAME);
+    }
+
+    public ProductProcessService getProductProcessService() {
+        return new ProductProcessServiceImpl(SERVER_HOSTNAME);
+    }
+
     public EmployeeCategoryService getEmployeeCategoryService() {
         return new EmployeeCategoryServiceImpl(SERVER_HOSTNAME);
     }
