@@ -8,5 +8,5 @@ import lombok.Setter;
 public class DepartmentRegionDto extends AbstractDto {
     private String regionName;
     private DepartmentDto department;
-    private DepartmentRegionChiefDto departmentRegionChief;
+    private EmployeeDto departmentRegionChief;
 }

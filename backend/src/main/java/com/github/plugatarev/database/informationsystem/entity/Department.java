@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "department")
+@Getter
+@Setter
 public class Department extends AbstractEntity {
 
     @Column(name = "department_name", nullable = false, unique = true)
-    @Getter @Setter
     private String departmentName;
 
-    @ManyToOne(targetEntity = DepartmentChief.class)
+    @ManyToOne
     @JoinColumn(name = "department_chief")
-    @Getter @Setter
-    private DepartmentChief departmentChief;
+    private Employee departmentChief;
 }

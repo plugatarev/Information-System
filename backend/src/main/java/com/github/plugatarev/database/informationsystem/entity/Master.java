@@ -12,5 +12,5 @@ public class Master extends Employee {
 
     @ManyToOne
     @JoinColumn(name = "chief", referencedColumnName = "id")
-    private DepartmentRegionChief chief;
+    private Employee chief;
 }

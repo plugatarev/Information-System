@@ -6,6 +6,8 @@ import com.github.plugatarev.database.informationsystem.mapper.DepartmentRegionM
 import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.repository.DepartmentRegionRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,9 @@ public class DepartmentRegionService extends AbstractService<DepartmentRegion, D
         return departmentRegionMapper;
     }
 
-//    public Page<Employee> getEmployees(Long id, Pageable pageable) {
-//        return departmentRegionRepository.getEmployees(id, pageable);
-//    }
+
+    public Page<DepartmentRegionDto> getDepartmentRegions(Long departmentId, Pageable pageable) {
+        Page<DepartmentRegion> departmentRegions = departmentRegionRepository.findAllByDepartmentId(departmentId, pageable);
+        return departmentRegions.map(departmentRegionMapper::toDto);
+    }
 }

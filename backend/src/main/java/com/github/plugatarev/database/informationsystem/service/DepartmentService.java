@@ -16,6 +16,7 @@ public class DepartmentService extends AbstractService<Department, DepartmentDto
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
 
+
     @Override
     protected JpaRepository<Department, Long> getRepository() {
         return departmentRepository;

@@ -6,16 +6,17 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "department_region")
-@Getter @Setter
+@Getter
+@Setter
 public class DepartmentRegion extends AbstractEntity {
     @Column(name = "region_name", unique = true, nullable = false)
     private String regionName;
 
-//    @ManyToOne
-//    @JoinColumn(name = "department_region_chief", referencedColumnName = "id")
-//    private DepartmentRegionChief departmentRegionChief;
+    @ManyToOne
+    @JoinColumn(name = "department")
+    private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false, referencedColumnName = "id")
-    private Department department;
+    @JoinColumn(name = "department_region_chief")
+    private Employee departmentRegionChief;
 }
