@@ -6,10 +6,7 @@ import app.gui.forms.filtering.FilterBoxBuilder;
 import app.gui.forms.input.EntityInputFormBuilder;
 import app.gui.forms.input.impl.*;
 import app.model.*;
-import app.services.DepartmentRegionService;
-import app.services.DepartmentService;
-import app.services.EmployeeService;
-import app.services.Service;
+import app.services.*;
 import app.utils.LocalDateFormatter;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
@@ -48,23 +45,39 @@ public class MainController {
 
     @FXML
     void openDepartmentRegions() {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        BrigadeService brigadeService = ServiceFactory.getBrigadeService();
+
         ContextWindowBuilder<DepartmentRegion> infoWindowBuilder = departmentRegion -> {
+            var brigadePropertyNames = new LinkedHashMap<>(Brigade.getPropertyNames());
+            brigadePropertyNames.remove("brigadeName");
+            var brigadeSortPropertyNames = new LinkedHashMap<>(Brigade.getSortPropertyNames());
+            brigadeSortPropertyNames.remove("brigadeName");
+
+            Node brigadeTable = createInfoWindowEntityTable(
+                    brigadePropertyNames,
+                    brigadeSortPropertyNames,
+                    pageInfo -> brigadeService.getBrigadesByDepartmentRegions(departmentRegion.getId(), pageInfo),
+                    brigadeService::deleteById,
+                    new BrigadeInputFormBuilder(requestExecutor),
+                    null
+            );
+
             var employeesPropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
             var employeesSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
 
-            Node employeesTable = createInfoWindowEntityTable(
+            Node employeeTable = createInfoWindowEntityTable(
                     employeesPropertyNames,
                     employeesSortPropertyNames,
-                    pageInfo -> employeeService.getDepartmentRegionEmployees(departmentRegion.getId(), pageInfo),
-                    employeeService::deleteById,
+                    pageInfo -> ServiceFactory.getEmployeeService().getDepartmentRegionEmployees(departmentRegion.getId(), pageInfo),
+                    ServiceFactory.getEmployeeService()::deleteById,
                     new EmployeeInputFormBuilder(requestExecutor),
                     null
             );
 
             return EntityInfoWindowBuilder
-                    .newInfoWindow(String.format("Участок №%d", departmentRegion.getId()))
-                    .addTab(employeesTable, "Сотрудники")
+                    .newInfoWindow(departmentRegion.getRegionName())
+                    .addTab(brigadeTable, "Бригады")
+                    .addTab(employeeTable, "Сотрудники")
                     .build();
         };
         createEntityTable(
@@ -95,14 +108,48 @@ public class MainController {
     }
 
     @FXML
+    void openWorkerBrigade() {
+        createEntityTable(
+                "Работники бригад",
+                WorkerBrigade.getPropertyNames(),
+                WorkerBrigade.getSortPropertyNames(),
+                ServiceFactory.getWorkerBrigadeService(),
+                new WorkerBrigadeInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
+    }
+
+    @FXML
     void openBrigades() {
+        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        WorkerBrigadeService workerBrigadeService = ServiceFactory.getWorkerBrigadeService();
+        ContextWindowBuilder<Brigade> infoWindowBuilder = brigade -> {
+            var employeesPropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
+            var employeesSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
+
+            Node employeesTable = createInfoWindowEntityTable(
+                    employeesPropertyNames,
+                    employeesSortPropertyNames,
+                    pageInfo -> workerBrigadeService.getWorkersByBrigadeId(brigade.getId(), pageInfo),
+                    employeeService::deleteById,
+                    new EmployeeInputFormBuilder(requestExecutor),
+                    null
+            );
+
+            return EntityInfoWindowBuilder
+                    .newInfoWindow(String.format("Бригада №%d", brigade.getId()))
+                    .addTab(employeesTable, "Сотрудники")
+                    .build();
+        };
         createEntityTable(
                 "Бригады",
                 Brigade.getPropertyNames(),
                 Brigade.getSortPropertyNames(),
                 ServiceFactory.getBrigadeService(),
                 new BrigadeInputFormBuilder(requestExecutor),
-                null,
+                infoWindowBuilder,
                 null,
                 null
         );
@@ -242,31 +289,39 @@ public class MainController {
     @FXML
     @SneakyThrows
     void openDepartments() {
-        DepartmentService departmentService = ServiceFactory.getDepartmentService();
         DepartmentRegionService departmentRegionService = ServiceFactory.getDepartmentRegionService();
 
         ContextWindowBuilder<Department> infoWindowBuilder = department -> {
-            var teamPropertyNames = new LinkedHashMap<>(DepartmentRegion.getPropertyNames());
-            teamPropertyNames.remove("departmentNameProperty");
-            var teamSortPropertyNames = new LinkedHashMap<>(DepartmentRegion.getSortPropertyNames());
-            teamSortPropertyNames.remove("departmentName");
+            var drPropertyNames = new LinkedHashMap<>(DepartmentRegion.getPropertyNames());
+            drPropertyNames.remove("departmentNameProperty");
+            var drSortPropertyNames = new LinkedHashMap<>(DepartmentRegion.getSortPropertyNames());
+            drSortPropertyNames.remove("departmentName");
 
             Node departmentRegionTable = createInfoWindowEntityTable(
-                    teamPropertyNames,
-                    teamSortPropertyNames,
-                    pageInfo -> departmentService.getDepartmentRegions(department.getId(), pageInfo),
+                    drPropertyNames,
+                    drSortPropertyNames,
+                    pageInfo -> departmentRegionService.getDepartmentRegionsByDepartment(department.getId(), pageInfo),
                     departmentRegionService::deleteById,
                     new DepartmentRegionInputFormBuilder(requestExecutor),
-                    () -> {
-                        DepartmentRegion departmentRegion = new DepartmentRegion();
-                        departmentRegion.getDepartment().setId(department.getId());
-                        return departmentRegion;
-                    }
+                    null
+            );
+
+            var employeesPropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
+            var employeesSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
+
+            Node employeeTable = createInfoWindowEntityTable(
+                    employeesPropertyNames,
+                    employeesSortPropertyNames,
+                    pageInfo -> ServiceFactory.getEmployeeService().getDepartmentEmployees(department.getId(), pageInfo),
+                    ServiceFactory.getEmployeeService()::deleteById,
+                    new EmployeeInputFormBuilder(requestExecutor),
+                    null
             );
 
             return EntityInfoWindowBuilder
                     .newInfoWindow(department.getDepartmentName())
                     .addTab(departmentRegionTable, "Участки")
+                    .addTab(employeeTable, "Сотрудники")
                     .build();
         };
 

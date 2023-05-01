@@ -10,15 +10,15 @@ import retrofit2.http.QueryMap;
 import java.util.Map;
 
 public interface EmployeeServiceApi extends CrudServiceApi {
-    @GET("departmentRegion/{id}/employees")
+    @GET("employee/departmentRegion/{departmentRegionId}/employees")
     Call<Page<Employee>> getDepartmentRegionEmployees(
-            @Path("id") Long departmentRegion,
+            @Path("departmentRegionId") Long departmentRegionId,
             @QueryMap Map<String, Object> pageInfo
     );
 
-    @GET("department/{id}/employees")
+    @GET("employee/department/{departmentId}/employees")
     Call<Page<Employee>> getDepartmentEmployees(
-            @Path("id") Long departmentRegion,
+            @Path("departmentId") Long departmentId,
             @QueryMap Map<String, Object> pageInfo
     );
 }

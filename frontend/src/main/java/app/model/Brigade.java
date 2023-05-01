@@ -37,12 +37,12 @@ public class Brigade extends Entity {
     static {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("brigadeName", "Бригада");
-        propertyNames.put("departmentRegionNameProperty", "Цех");
+        propertyNames.put("departmentRegionNameProperty", "Участок");
         propertyNames.put("brigadierNameProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("brigadeName", "Бригада");
-        sortPropertyNames.put("departmentRegionNameProperty", "Цех");
+        sortPropertyNames.put("departmentRegionNameProperty", "Участок");
         sortPropertyNames.put("brigadierNameProperty", "Начальник");
     }
 

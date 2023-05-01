@@ -4,7 +4,6 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Master;
-import app.services.EmployeeService;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -15,20 +14,32 @@ public class MasterInputFormBuilder extends AbstractEntityInputFormBuilder<Maste
 
     @Override
     protected void fillInputForm(Master master, FormType formType, boolean isContextWindow, EntityInputFormController<Master> controller) {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
-
         ChoiceItemSupplier<Long> engineerIdSupplier = makeChoiceItemSupplierFromEntities(
-                employeeService,
+                ServiceFactory.getEmployeeService(),
                 t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineering_staff"),
                 t -> new ChoiceItem<>(t.getId(), t.getFirstName() + t.getSecondName()),
                 "Не удалось загрузить список инженеров"
         );
 
+        ChoiceItemSupplier<Long> chiefIdSupplier = makeChoiceItemSupplierFromEntities(
+                ServiceFactory.getDepartmentRegionChiefService(),
+                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineering_staff"),
+                t -> new ChoiceItem<>(t.getId(), t.getFirstName() + " " + t.getSecondName()),
+                "Не удалось загрузить список инженеров"
+        );
+
         controller.addChoiceBox(
-                "Инженер",
+                "Мастер",
                 master.getId(),
                 master::setId,
                 engineerIdSupplier
+        );
+
+        controller.addChoiceBox(
+                "Начальник участка",
+                master.getChief().getId(),
+                value -> master.getChief().setId(value),
+                chiefIdSupplier
         );
     }
 

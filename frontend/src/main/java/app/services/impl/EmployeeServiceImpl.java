@@ -15,11 +15,13 @@ public class EmployeeServiceImpl
         super(EmployeeServiceApi.class, Employee.class, baseUrl, "employee");
     }
 
+    @Override
     public ServiceResponse<Page<Employee>> getDepartmentRegionEmployees(Long departmentRegionId, PageInfo pageInfo) {
         var call = getServiceApi().getDepartmentRegionEmployees(departmentRegionId, PageInfo.toMap(pageInfo));
         return getServerResponse(call);
     }
 
+    @Override
     public ServiceResponse<Page<Employee>> getDepartmentEmployees(Long departmentId, PageInfo pageInfo) {
         var call = getServiceApi().getDepartmentEmployees(departmentId, PageInfo.toMap(pageInfo));
         return getServerResponse(call);

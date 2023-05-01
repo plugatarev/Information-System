@@ -49,6 +49,10 @@ public class ServiceFactory {
         return new EmployeeServiceImpl(SERVER_HOSTNAME);
     }
 
+    public WorkerBrigadeService getWorkerBrigadeService() {
+        return new WorkerBrigadeServiceImpl(SERVER_HOSTNAME);
+    }
+
     public EquipmentService getEquipmentService() {
         return new EquipmentServiceImpl(SERVER_HOSTNAME);
     }

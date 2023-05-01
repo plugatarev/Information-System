@@ -11,15 +11,15 @@ import java.util.Map;
 public class DepartmentRegion extends Entity {
     private String regionName;
     private Department department = new Department();
-    private DepartmentRegionChief chief = new DepartmentRegionChief();
+    private Employee departmentRegionChief = new Employee();
 
     private String departmentNameProperty;
-    private String chiefNameProperty;
+    private String departmentRegionChiefProperty;
 
     @Override
     public DepartmentRegion clone() {
         var clone = (DepartmentRegion) super.clone();
-        clone.setChief(chief.clone());
+        clone.setDepartmentRegionChief(departmentRegionChief.clone());
         clone.setDepartment(department.clone());
         return clone;
     }
@@ -27,7 +27,7 @@ public class DepartmentRegion extends Entity {
     @Override
     public void calculateProperties() {
         super.calculateProperties();
-        if (chief != null) chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
+        if (departmentRegionChief != null) departmentRegionChiefProperty = departmentRegionChief.getFirstName() + " " + departmentRegionChief.getSecondName();
         if (department != null) departmentNameProperty = department.getDepartmentName();
     }
 
@@ -38,12 +38,12 @@ public class DepartmentRegion extends Entity {
         propertyNames.putAll(Entity.getPropertyNames());
         propertyNames.put("regionName", "Участок");
         propertyNames.put("departmentNameProperty", "Цех");
-//        propertyNames.put("chiefNameProperty", "Начальник");
+        propertyNames.put("departmentRegionChiefProperty", "Начальник");
 
         sortPropertyNames.putAll(Entity.getSortPropertyNames());
         sortPropertyNames.put("regionName", "Участок");
         sortPropertyNames.put("departmentNameProperty", "Цех");
-//        sortPropertyNames.put("chiefNameProperty", "Начальник");
+        sortPropertyNames.put("departmentRegionChiefProperty", "Начальник");
     }
 
     public static Map<String, String> getPropertyNames() {
