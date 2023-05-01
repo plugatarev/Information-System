@@ -27,6 +27,18 @@ public class EmployeeServiceImpl
         return getServerResponse(call);
     }
 
+    @Override
+    public ServiceResponse<Page<Employee>> getDepartmentBrigadeWorkers(Long departmentId, PageInfo pageInfo) {
+        var call = getServiceApi().getDepartmentBrigadeWorkers(departmentId, PageInfo.toMap(pageInfo));
+        return getServerResponse(call);
+    }
+
+    @Override
+    public ServiceResponse<Page<Employee>> getDepartmentRegionBrigadeWorkers(Long departmentRegionId, PageInfo pageInfo) {
+        var call = getServiceApi().getDepartmentRegionBrigadeWorkers(departmentRegionId, PageInfo.toMap(pageInfo));
+        return getServerResponse(call);
+    }
+
     private EmployeeServiceApi getServiceApi() {
         return (EmployeeServiceApi) getCrudServiceApi();
     }

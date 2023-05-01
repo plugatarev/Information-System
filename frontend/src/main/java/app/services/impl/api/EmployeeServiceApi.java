@@ -21,4 +21,16 @@ public interface EmployeeServiceApi extends CrudServiceApi {
             @Path("departmentId") Long departmentId,
             @QueryMap Map<String, Object> pageInfo
     );
+
+    @GET("employee/departmentRegion/{departmentRegionId}/brigadeWorkers")
+    Call<Page<Employee>> getDepartmentRegionBrigadeWorkers(
+            @Path("departmentRegionId") Long departmentRegionId,
+            @QueryMap Map<String, Object> pageInfo
+    );
+
+    @GET("employee/department/{departmentId}/brigadeWorkers")
+    Call<Page<Employee>> getDepartmentBrigadeWorkers(
+            @Path("departmentId") Long departmentId,
+            @QueryMap Map<String, Object> pageInfo
+    );
 }

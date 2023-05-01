@@ -45,13 +45,31 @@ public class ProductService extends AbstractService<Product, ProductDto> {
         Long dId = filter.getDepartment() == null ? null : filter.getDepartment().getId();
         Date minAssembledDate = filter.getMinAssembledDate();
         Date maxAssembledDate = filter.getMaxAssembledDate();
+        Long laboratoryId = filter.getLaboratory() == null ? null : filter.getLaboratory().getId();
+        Date minLaboratoryDate = filter.getMinLaboratoryDate();
+        Date maxLaboratoryDate = filter.getMaxLaboratoryDate();
+//        if (laboratoryDto != null) {
+//            return productRepository.searchByLaboratoryFilter(laboratoryDto.getId(), minLaboratoryDate, maxLaboratoryDate, pageable).map(productMapper::toDto);
+//        }
+        if (productStatus == null && dId == null && minAssembledDate == null && maxAssembledDate == null && laboratoryId == null && minLaboratoryDate == null && maxLaboratoryDate == null) {
+            if (productType != null) return productRepository.findAllByType(productType, pageable).map(productMapper::toDto);
+            return productRepository.findAll(pageable).map(productMapper::toDto);
+        }
+        if (minLaboratoryDate == null && maxLaboratoryDate == null && laboratoryId == null) {
+            return productRepository
+                    .searchByFilter(productType, productStatus, minAssembledDate, maxAssembledDate, dId, pageable)
+                    .map(productMapper::toDto);
+        }
         return productRepository
-                .searchByFilter(
+                .searchByLaboratoryFilter(
                         productType,
                         productStatus,
                         minAssembledDate,
                         maxAssembledDate,
                         dId,
+                        laboratoryId,
+                        minLaboratoryDate,
+                        maxLaboratoryDate,
                         pageable)
                 .map(productMapper::toDto);
     }

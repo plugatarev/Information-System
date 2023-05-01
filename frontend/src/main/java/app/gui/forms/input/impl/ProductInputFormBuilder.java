@@ -31,13 +31,6 @@ public class ProductInputFormBuilder extends AbstractEntityInputFormBuilder<Prod
                 c -> new ChoiceItem<>(c.getId(), c.getDepartmentName()),
                 "Не удалось загрузить список цехов для сборки изделия"
         );
-
-        controller.addTextField(
-                "Заказчик",
-                product.getCustomer(),
-                product::setCustomer
-        );
-
         controller.addChoiceBox(
                 "Тип изделия",
                 product.getCategoryType().getId(),

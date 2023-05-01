@@ -33,19 +33,45 @@ public class EmployeeService extends AbstractService<Employee, EmployeeDto> {
 
     public Page<EmployeeDto> getDepartmentEmployees(Long departmentId, Pageable pageable) {
         return employeeRepository
-                .findEmployeesByDepartment(departmentId, pageable)
+                .findEmployeesByDepartment(null, departmentId, pageable)
                 .map(employeeMapper::toDto);
     }
 
     public Page<EmployeeDto> getDepartmentRegionEmployees(Long departmentRegionId, Pageable pageable) {
         return employeeRepository
-                .findEmployeesByDepartmentRegion(departmentRegionId, pageable)
+                .findEmployeesByDepartmentRegion(null, departmentRegionId, pageable)
+                .map(employeeMapper::toDto);
+    }
+
+    public Page<EmployeeDto> getDepartmentRegionBrigadeWorkers(Long departmentRegionId, Pageable pageable) {
+        return employeeRepository
+                .findBrigadeWorkersByDepartmentRegion(departmentRegionId, pageable)
+                .map(employeeMapper::toDto);
+    }
+
+    public Page<EmployeeDto> getDepartmentBrigadeWorkers(Long departmentId, Pageable pageable) {
+        return employeeRepository
+                .findBrigadeWorkersByDepartment(departmentId, pageable)
                 .map(employeeMapper::toDto);
     }
 
     public Page<EmployeeDto> searchByFilter(EmployeeFilter filter, Pageable pageable) {
+        String employeeType = convertEmployeeTypeToString(filter.getEmployeeCategory());
+        if (employeeType != null && filter.getDepartment() == null && filter.getDepartmentRegion() == null) {
+            return employeeRepository.findEmployeesByType(employeeType, pageable).map(employeeMapper::toDto);
+        }
+        if (filter.getDepartmentRegion() != null) {
+            Long departmentRegionId = filter.getDepartmentRegion().getId();
+            return employeeRepository
+                    .findEmployeesByDepartmentRegion(employeeType, departmentRegionId, pageable)
+                    .map(employeeMapper::toDto);
+        }
+        Long departmentId = filter.getDepartment() == null ? null : filter.getDepartment().getId();
+        if (departmentId == null && filter.getEmployeeCategory() == null) {
+            return employeeRepository.findAll(pageable).map(employeeMapper::toDto);
+        }
         return employeeRepository
-                .searchByFilter(convertEmployeeTypeToString(filter.getEmployeeCategory()), pageable)
+                .findEmployeesByDepartmentRegion(employeeType, departmentId, pageable)
                 .map(employeeMapper::toDto);
     }
 

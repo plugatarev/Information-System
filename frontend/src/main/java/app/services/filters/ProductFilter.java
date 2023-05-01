@@ -1,6 +1,7 @@
 package app.services.filters;
 
 import app.model.Department;
+import app.model.Laboratory;
 import app.model.type.ProductStatusEnum;
 import app.model.type.ProductTypeEnum;
 import lombok.Getter;
@@ -14,6 +15,10 @@ public class ProductFilter implements Filter {
     ProductStatusEnum productStatusEnum;
     Date minAssembledDate;
     Date maxAssembledDate;
+
+    Laboratory laboratory;
+    Date minLaboratoryDate;
+    Date maxLaboratoryDate;
 
     Department department;
 }

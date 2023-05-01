@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LaboratoryRepository extends JpaRepository<Laboratory, Long> {
-    @Query("select l from Laboratory l, LaboratoryOrder lo where lo.laboratory.id=l.id and lo.product.id=:productId")
+    @Query("select lo.laboratory from LaboratoryOrder lo where lo.product.id=:productId")
     Page<Laboratory> findLaboratoriesByProduct(Long productId, Pageable pageable);
 }

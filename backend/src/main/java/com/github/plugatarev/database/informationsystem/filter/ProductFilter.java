@@ -1,6 +1,7 @@
 package com.github.plugatarev.database.informationsystem.filter;
 
 import com.github.plugatarev.database.informationsystem.dto.DepartmentDto;
+import com.github.plugatarev.database.informationsystem.dto.LaboratoryDto;
 import com.github.plugatarev.database.informationsystem.filter.type.ProductStatusEnum;
 import com.github.plugatarev.database.informationsystem.filter.type.ProductTypeEnum;
 import lombok.Getter;
@@ -15,6 +16,10 @@ public class ProductFilter {
     ProductStatusEnum productStatusEnum;
     Date minAssembledDate;
     Date maxAssembledDate;
+
+    LaboratoryDto laboratory;
+    Date minLaboratoryDate;
+    Date maxLaboratoryDate;
 
     DepartmentDto department;
 }

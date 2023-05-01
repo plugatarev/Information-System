@@ -4,6 +4,7 @@ import com.github.plugatarev.database.informationsystem.dto.EmployeeDto;
 import com.github.plugatarev.database.informationsystem.dto.WorkerBrigadeDto;
 import com.github.plugatarev.database.informationsystem.entity.WorkerBrigade;
 import com.github.plugatarev.database.informationsystem.exception.EntityNotUniqueException;
+import com.github.plugatarev.database.informationsystem.mapper.EmployeeMapper;
 import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.mapper.WorkerBrigadeMapper;
 import com.github.plugatarev.database.informationsystem.repository.WorkerBrigadeRepository;
@@ -19,6 +20,7 @@ public class WorkerBrigadeService extends AbstractService<WorkerBrigade, WorkerB
 
     private final WorkerBrigadeRepository workerBrigadeRepository;
     private final WorkerBrigadeMapper workerBrigadeMapper;
+    private final EmployeeMapper employeeMapper;
 
     @Override
     protected JpaRepository<WorkerBrigade, Long> getRepository() {
@@ -46,7 +48,6 @@ public class WorkerBrigadeService extends AbstractService<WorkerBrigade, WorkerB
     }
 
     public Page<EmployeeDto> getBrigadeWorkersByProduct(Long productId, Pageable pageable) {
-        Page<WorkerBrigade> employees = workerBrigadeRepository.findAllByProductId(productId, pageable);
-        return employees.map(s -> workerBrigadeMapper.toDto(s).getWorker());
+        return workerBrigadeRepository.findBrigadeEmployeesByProductId(productId, pageable).map(employeeMapper::toDto);
     }
 }

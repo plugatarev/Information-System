@@ -32,6 +32,16 @@ public class EmployeeController extends AbstractController<EmployeeDto> {
         return employeeService.getDepartmentEmployees(departmentId, pageable);
     }
 
+    @GetMapping("/departmentRegion/{departmentRegionId}/brigadeWorkers")
+    public Page<EmployeeDto> getDepartmentRegionBrigadeWorkers(@PathVariable("departmentRegionId") Long departmentRegionId, Pageable pageable) {
+        return employeeService.getDepartmentRegionBrigadeWorkers(departmentRegionId, pageable);
+    }
+
+    @GetMapping("/department/{departmentId}/brigadeWorkers")
+    public Page<EmployeeDto> getDepartmentBrigadeWorkers(@PathVariable("departmentId") Long departmentId, Pageable pageable) {
+        return employeeService.getDepartmentBrigadeWorkers(departmentId, pageable);
+    }
+
     @PostMapping("/search")
     public ResponseEntity<Page<EmployeeDto>> search(@RequestBody EmployeeFilter filter, Pageable pageable) {
         return ResponseEntity.ok(employeeService.searchByFilter(filter, pageable));

@@ -16,8 +16,8 @@ public interface WorkerBrigadeRepository extends JpaRepository<WorkerBrigade, Lo
     boolean existsByBrigadeAndWorker(Brigade brigade, Employee worker);
 
     @Query(value = """
-                    select wb from WorkerBrigade wb, Product p, Brigade b
-                    where p.manufacturerDepartment.id=b.departmentRegion.id and wb.worker.id=b.id
+                    select wb.worker from WorkerBrigade wb, ProductProcess pp
+                    where pp.collectingBrigade.id=wb.brigade.id and pp.product.id=:productId
                     """)
-    Page<WorkerBrigade> findAllByProductId(Long productId, Pageable pageable);
+    Page<Employee> findBrigadeEmployeesByProductId(Long productId, Pageable pageable);
 }

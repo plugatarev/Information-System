@@ -4,37 +4,28 @@ import app.gui.controllers.FilterBoxController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Department;
-import app.model.DepartmentRegion;
-import app.model.Entity;
+import app.model.Laboratory;
 import app.model.Product;
 import app.model.type.ProductStatusEnum;
 import app.model.type.ProductTypeEnum;
-import app.services.Service;
 import app.services.filters.Filter;
 import app.services.filters.ProductFilter;
-import app.services.pagination.Page;
-import app.services.pagination.PageInfo;
 import app.utils.ServiceFactory;
-
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ProductFilterBoxBuilder extends AbstractFilterBoxBuilder<Product> {
     @Override
     protected void fillFilterBox(FilterBoxController<Product> controller, Filter filter) {
         ProductFilter productFilter = (ProductFilter) filter;
-        ChoiceItemSupplier<DepartmentRegion> departmentRegionIdSupplier = makeChoiceItemSupplierFromEntities(
-                ServiceFactory.getDepartmentRegionService(),
-                c -> new ChoiceItem<>(c.clone(),  c.getRegionName()),
-                "Не удалось загрузить список участков"
-        );
-
         ChoiceItemSupplier<Department> departmentIdSupplier = makeChoiceItemSupplierFromEntities(
                 ServiceFactory.getDepartmentService(),
                 c -> new ChoiceItem<>(c.clone(),  c.getDepartmentName()),
                 "Не удалось загрузить список цехов"
+        );
+
+        ChoiceItemSupplier<Laboratory> laboratoryIdSupplier = makeChoiceItemSupplierFromEntities(
+                ServiceFactory.getLaboratoryService(),
+                c -> new ChoiceItem<>(c.clone(),  c.getLaboratoryName()),
+                "Не удалось загрузить список лабораторий"
         );
 
         controller.setNumberOfRows(3);
@@ -51,41 +42,23 @@ public class ProductFilterBoxBuilder extends AbstractFilterBoxBuilder<Product> {
         row++;
         controller.addLabel("Цех:", 0, row, 2);
         controller.addChoiceBox(productFilter::setDepartment, departmentIdSupplier, 2, row, 5);
-    }
 
-    protected <X extends Entity, Y> ChoiceItemSupplier<Y> makeChoiceItemSupplierFromEntities(
-            Service<X> entityService,
-            Function<X, ChoiceItem<Y>> entityToChoiceItemMapper,
-            String errorMessage
-    ) {
-        return makeChoiceItemSupplierFromEntities(
-                entityService,
-                x -> true,
-                entityToChoiceItemMapper,
-                errorMessage
-        );
-    }
+        row++;
+        controller.addLabel("Дата сборки:", 0, row, 2);
+        controller.addLabel("от", 2, row, 1);
+        controller.addDateField(productFilter::setMinAssembledDate, 3, row, 3);
+        controller.addLabel("до", 6, row, 1);
+        controller.addDateField(productFilter::setMaxAssembledDate, 7, row, 3);
 
-    protected <X extends Entity, Y> ChoiceItemSupplier<Y> makeChoiceItemSupplierFromEntities(
-            Service<X> entityService,
-            Predicate<X> entityFilterPredicate,
-            Function<X, ChoiceItem<Y>> entityToChoiceItemMapper,
-            String errorMessage
-    ) {
-        return () -> {
+        row++;
+        controller.addLabel("Лаборатория:", 0, row, 2);
+        controller.addChoiceBox(productFilter::setLaboratory, laboratoryIdSupplier, 2, row, 5);
 
-            try {
-                Page<X> page = entityService.getAll(PageInfo.getUnlimitedPageInfo()).getBody();
-                Objects.requireNonNull(page, errorMessage);
-
-                return page.getElementList().stream()
-                           .filter(entityFilterPredicate)
-                           .map(entityToChoiceItemMapper)
-                           .collect(Collectors.toList());
-            } catch (Exception e) {
-                throw new RuntimeException(errorMessage, e);
-            }
-
-        };
+        row++;
+        controller.addLabel("Дата прохождения тестирования в лаборатории:", 0, row, 2);
+        controller.addLabel("от", 2, row, 1);
+        controller.addDateField(productFilter::setMinLaboratoryDate, 3, row, 3);
+        controller.addLabel("до", 6, row, 1);
+        controller.addDateField(productFilter::setMaxLaboratoryDate, 7, row, 3);
     }
 }

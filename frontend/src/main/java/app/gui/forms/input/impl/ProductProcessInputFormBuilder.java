@@ -23,7 +23,7 @@ public class ProductProcessInputFormBuilder  extends AbstractEntityInputFormBuil
 
         ChoiceItemSupplier<Long> productIdSupplier = makeChoiceItemSupplierFromEntities(
                 productService,
-                t -> new ChoiceItem<>(t.getId(), t.getId() + " " + t.getCategoryType() + " " + t.getCustomer()),
+                t -> new ChoiceItem<>(t.getId(), t.getId() + " " + t.getCategoryType().getName() + " " + t.getCustomer()),
                 "Не удалось загрузить список изделий"
         );
 
