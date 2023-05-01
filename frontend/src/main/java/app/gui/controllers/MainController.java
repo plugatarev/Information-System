@@ -74,10 +74,23 @@ public class MainController {
                     null
             );
 
+            var productsPropertyNames = new LinkedHashMap<>(Product.getPropertyNames());
+            var productsSortPropertyNames = new LinkedHashMap<>(Product.getSortPropertyNames());
+
+            Node productTable = createInfoWindowEntityTable(
+                    productsPropertyNames,
+                    productsSortPropertyNames,
+                    pageInfo -> ServiceFactory.getProductService().getDepartmentRegionProduct(departmentRegion.getId(), pageInfo),
+                    ServiceFactory.getProductService()::deleteById,
+                    new ProductInputFormBuilder(requestExecutor),
+                    null
+            );
+
             return EntityInfoWindowBuilder
                     .newInfoWindow(departmentRegion.getRegionName())
                     .addTab(brigadeTable, "Бригады")
                     .addTab(employeeTable, "Сотрудники")
+                    .addTab(productTable, "Продукты")
                     .build();
         };
         createEntityTable(
@@ -318,10 +331,23 @@ public class MainController {
                     null
             );
 
+            var productsPropertyNames = new LinkedHashMap<>(Product.getPropertyNames());
+            var productsSortPropertyNames = new LinkedHashMap<>(Product.getSortPropertyNames());
+
+            Node productTable = createInfoWindowEntityTable(
+                    productsPropertyNames,
+                    productsSortPropertyNames,
+                    pageInfo -> ServiceFactory.getProductService().getDepartmentProduct(department.getId(), pageInfo),
+                    ServiceFactory.getProductService()::deleteById,
+                    new ProductInputFormBuilder(requestExecutor),
+                    null
+            );
+
             return EntityInfoWindowBuilder
                     .newInfoWindow(department.getDepartmentName())
                     .addTab(departmentRegionTable, "Участки")
                     .addTab(employeeTable, "Сотрудники")
+                    .addTab(productTable, "Продукты")
                     .build();
         };
 
