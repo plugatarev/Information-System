@@ -54,7 +54,7 @@ create table department_region_chief(
 create table department_region (
     id                          bigserial primary key,
     region_name                 varchar(255) not null unique,
-    department_id               bigint references department(id) on delete cascade on update cascade,
+    department                  bigint references department(id) on delete cascade on update cascade,
     department_region_chief     bigint references department_region_chief(id) on delete set null on update cascade
 );
 

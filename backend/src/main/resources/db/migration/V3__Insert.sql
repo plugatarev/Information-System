@@ -76,7 +76,7 @@ update department set department_chief = 10 where department.id = 2;
 insert into department_region_chief values (1),
                                            (5);
 
-insert into department_region(region_name, department_id, department_region_chief) values ('First', 1, 1),
+insert into department_region(region_name, department, department_region_chief) values ('First', 1, 1),
                                                                         ('Build', 2, 5);
 
 update brigade set department_region = 1 where id = 1;
