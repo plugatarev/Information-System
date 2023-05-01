@@ -1,9 +1,9 @@
 package app.services.impl;
 
-import app.gui.forms.filtering.Filter;
 import app.model.Entity;
 import app.services.Service;
 import app.services.ServiceResponse;
+import app.services.filters.Filter;
 import app.services.impl.api.CrudServiceApi;
 import app.services.pagination.Page;
 import app.services.pagination.PageInfo;
@@ -76,7 +76,7 @@ public abstract class AbstractCrudServiceImpl<T extends Entity> implements Servi
     }
 
     @Override
-    public ServiceResponse<Page<T>> search(Filter<T> filter, PageInfo pageInfo) {
+    public ServiceResponse<Page<T>> search(Filter filter, PageInfo pageInfo) {
         var call = crudServiceApi.search(urlRoot, PageInfo.toMap(pageInfo), gson.toJsonTree(filter));
         return getServerResponse(call, TypeFactory.getPageType(entityClass));
     }

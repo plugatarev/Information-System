@@ -22,6 +22,12 @@ public class WorkerBrigadeServiceImpl
 
     }
 
+    @Override
+    public ServiceResponse<Page<Employee>> getWorkersByProductId(Long productId, PageInfo pageInfo) {
+        var call = getServiceApi().getBrigadeWorkersByProduct(productId, PageInfo.toMap(pageInfo));
+        return getServerResponse(call);
+    }
+
     private WorkerBrigadeServiceApi getServiceApi() {
         return (WorkerBrigadeServiceApi) getCrudServiceApi();
     }

@@ -1,7 +1,7 @@
 package app.services;
 
-import app.gui.forms.filtering.Filter;
 import app.model.Entity;
+import app.services.filters.Filter;
 import app.services.pagination.Page;
 import app.services.pagination.PageInfo;
 
@@ -16,7 +16,7 @@ public interface Service<E extends Entity> {
 
     ServiceResponse<Page<E>> getAll(PageInfo pageInfo);
 
-    ServiceResponse<Page<E>> search(Filter<E> filter, PageInfo pageInfo);
+    ServiceResponse<Page<E>> search(Filter filter, PageInfo pageInfo);
 
     ServiceResponse<List<E>> getAllById(Collection<Long> idCollection);
 

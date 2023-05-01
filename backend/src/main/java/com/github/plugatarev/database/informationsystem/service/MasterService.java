@@ -39,6 +39,13 @@ public class MasterService extends AbstractService<Master, MasterDto> {
         return masterMapper.toDto(master);
     }
 
+    public Page<MasterDto> getDepartmentMasters(Long departmentId, Pageable pageable) {
+        return masterRepository.findMastersByDepartment(departmentId, pageable).map(masterMapper::toDto);
+    }
+
+    public Page<MasterDto> getDepartmentRegionMasters(Long departmentRegionId, Pageable pageable) {
+        return masterRepository.findMastersByDepartmentRegion(departmentRegionId, pageable).map(masterMapper::toDto);
+    }
 
     private Master employeeToMaster(Employee employee) {
         Master master = new Master();
@@ -50,13 +57,5 @@ public class MasterService extends AbstractService<Master, MasterDto> {
         master.setDismissalDate(employee.getDismissalDate());
         master.setEmployeeCategoryType(employee.getEmployeeCategoryType());
         return master;
-    }
-
-    public Page<MasterDto> getDepartmentMasters(Long departmentId, Pageable pageable) {
-        return masterRepository.findMastersByDepartment(departmentId, pageable).map(masterMapper::toDto);
-    }
-
-    public Page<MasterDto> getDepartmentRegionMasters(Long departmentRegionId, Pageable pageable) {
-        return masterRepository.findMastersByDepartmentRegion(departmentRegionId, pageable).map(masterMapper::toDto);
     }
 }

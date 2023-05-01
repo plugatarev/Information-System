@@ -1,12 +1,16 @@
 package app.gui.controllers;
 
 import app.gui.controllers.interfaces.ContextWindowBuilder;
-import app.gui.forms.filtering.Filter;
 import app.gui.forms.filtering.FilterBoxBuilder;
+import app.gui.forms.filtering.impl.EmployeeFilterBoxBuilder;
+import app.gui.forms.filtering.impl.ProductFilterBoxBuilder;
 import app.gui.forms.input.EntityInputFormBuilder;
 import app.gui.forms.input.impl.*;
 import app.model.*;
 import app.services.*;
+import app.services.filters.EmployeeFilter;
+import app.services.filters.Filter;
+import app.services.filters.ProductFilter;
 import app.utils.LocalDateFormatter;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
@@ -243,15 +247,51 @@ public class MainController {
 
     @FXML
     void openProducts() {
+        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        WorkerBrigadeService workerBrigadeService = ServiceFactory.getWorkerBrigadeService();
+        LaboratoryService laboratoryService = ServiceFactory.getLaboratoryService();
+
+        ContextWindowBuilder<Product> infoWindowBuilder = product -> {
+            var employeesPropertyNames = new LinkedHashMap<>(Employee.getPropertyNames());
+            var employeesSortPropertyNames = new LinkedHashMap<>(Employee.getSortPropertyNames());
+
+            Node employeesTable = createInfoWindowEntityTable(
+                    employeesPropertyNames,
+                    employeesSortPropertyNames,
+                    pageInfo -> workerBrigadeService.getWorkersByProductId(product.getId(), pageInfo),
+                    employeeService::deleteById,
+                    new EmployeeInputFormBuilder(requestExecutor),
+                    null
+            );
+
+            var laboratoriesPropertyNames = new LinkedHashMap<>(Laboratory.getPropertyNames());
+            var laboratoriesSortPropertyNames = new LinkedHashMap<>(Laboratory.getSortPropertyNames());
+
+            Node laboratoriesTable = createInfoWindowEntityTable(
+                    laboratoriesPropertyNames,
+                    laboratoriesSortPropertyNames,
+                    pageInfo -> laboratoryService.getLaboratoriesByProductId(product.getId(), pageInfo),
+                    laboratoryService::deleteById,
+                    new LaboratoryInputFormBuilder(requestExecutor),
+                    null
+            );
+
+            return EntityInfoWindowBuilder
+                    .newInfoWindow(String.format("Состав бригад для продукта №%d", product.getId()))
+                    .addTab(employeesTable, "Сотрудники")
+                    .addTab(laboratoriesTable, "Лаборатории")
+                    .build();
+        };
+
         createEntityTable(
                 "Изделия",
                 Product.getPropertyNames(),
                 Product.getSortPropertyNames(),
                 ServiceFactory.getProductService(),
                 new ProductInputFormBuilder(requestExecutor),
-                null,
-                null,
-                null
+                infoWindowBuilder,
+                new ProductFilterBoxBuilder(),
+                ProductFilter::new
         );
     }
 
@@ -321,8 +361,8 @@ public class MainController {
                 ServiceFactory.getEmployeeService(),
                 new EmployeeInputFormBuilder(requestExecutor),
                 null,
-                null,
-                null
+                new EmployeeFilterBoxBuilder(),
+                EmployeeFilter::new
         );
     }
 
@@ -420,7 +460,7 @@ public class MainController {
             EntityInputFormBuilder<T> inputFormBuilder,
             ContextWindowBuilder<T> infoWindowBuilder,
             FilterBoxBuilder<T> filterBoxBuilder,
-            Supplier<Filter<T>> newFilterSupplier
+            Supplier<Filter> newFilterSupplier
     ) {
         FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
         Node table = tableLoader.load();
@@ -444,7 +484,7 @@ public class MainController {
 
         Node filterBox = null;
         if (filterBoxBuilder != null && newFilterSupplier != null) {
-            Filter<T> filter = newFilterSupplier.get();
+            Filter filter = newFilterSupplier.get();
             filterBox = filterBoxBuilder.buildFilterBox(filter);
             controller.setEntitySource(pageInfo -> entityService.search(filter, pageInfo));
         } else {
@@ -539,7 +579,7 @@ public class MainController {
             EntityInputFormBuilder<T> inputFormBuilder,
             ContextWindowBuilder<T> infoWindowBuilder,
             FilterBoxBuilder<T> filterBoxBuilder,
-            Supplier<Filter<T>> newFilterSupplier,
+            Supplier<Filter> newFilterSupplier,
             boolean isUpdatable
     ) {
         FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
@@ -564,7 +604,7 @@ public class MainController {
 
         Node filterBox = null;
         if (filterBoxBuilder != null && newFilterSupplier != null) {
-            Filter<T> filter = newFilterSupplier.get();
+            Filter filter = newFilterSupplier.get();
             filterBox = filterBoxBuilder.buildFilterBox(filter);
             controller.setEntitySource(pageInfo -> entityService.search(filter, pageInfo));
         } else {

@@ -6,6 +6,8 @@ import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.mapper.LaboratoryMapper;
 import com.github.plugatarev.database.informationsystem.repository.LaboratoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,9 @@ public class LaboratoryService extends AbstractService<Laboratory, LaboratoryDto
     @Override
     protected IMapper<Laboratory, LaboratoryDto> getMapper() {
         return laboratoryMapper;
+    }
+
+    public Page<LaboratoryDto> getLaboratoriesByProduct(Long productId, Pageable pageable) {
+        return laboratoryRepository.findLaboratoriesByProduct(productId, pageable).map(laboratoryMapper::toDto);
     }
 }

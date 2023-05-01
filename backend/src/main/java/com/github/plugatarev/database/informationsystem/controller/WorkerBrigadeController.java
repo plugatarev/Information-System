@@ -25,8 +25,13 @@ public class WorkerBrigadeController extends AbstractController<WorkerBrigadeDto
         return workerBrigadeService;
     }
 
-    @GetMapping("/{brigadeId}/employees")
+    @GetMapping("brigades/{brigadeId}")
     public ResponseEntity<Page<EmployeeDto>> getBrigadeWorkers(@PathVariable("brigadeId") Long brigadeId, Pageable pageable) {
         return ResponseEntity.ok(workerBrigadeService.getBrigadeWorkers(brigadeId, pageable));
+    }
+
+    @GetMapping("workers/{productId}")
+    public ResponseEntity<Page<EmployeeDto>> getBrigadeWorkersByProduct(@PathVariable("productId") Long productId, Pageable pageable) {
+        return ResponseEntity.ok(workerBrigadeService.getBrigadeWorkersByProduct(productId, pageable));
     }
 }

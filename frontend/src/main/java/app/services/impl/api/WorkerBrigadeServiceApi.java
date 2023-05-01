@@ -10,7 +10,11 @@ import retrofit2.http.QueryMap;
 import java.util.Map;
 
 public interface WorkerBrigadeServiceApi extends CrudServiceApi {
-    @GET("workerBrigade/{brigadeId}/employees")
+    @GET("workerBrigade/brigades/{brigadeId}")
     Call<Page<Employee>> getBrigadeWorkers(@Path("brigadeId") Long brigadeId,
                                            @QueryMap Map<String, Object> pageInfo);
+
+    @GET("workerBrigade/workers/{productId}")
+    Call<Page<Employee>> getBrigadeWorkersByProduct(@Path("productId") Long brigadeId,
+                                                    @QueryMap Map<String, Object> pageInfo);
 }

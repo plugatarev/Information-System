@@ -40,7 +40,7 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
         );
 
         controller.addChoiceBox(
-                "Изделие",
+                "Бригада",
                 workerBrigade.getBrigade().getId(),
                 value -> workerBrigade.getBrigade().setId(value),
                 brigadeIdSupplier
@@ -49,7 +49,7 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
 
     @Override
     protected String getCreationFormWindowTitle() {
-        return "Добавить нового начальника участка";
+        return "Новое назвачение";
     }
 
     @Override

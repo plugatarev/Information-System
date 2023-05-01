@@ -51,6 +51,12 @@ public class ProductInputFormBuilder extends AbstractEntityInputFormBuilder<Prod
                 value -> product.getManufacturerDepartment().setId(value),
                 departmentIdSupplier
         );
+
+        controller.addTextField(
+                "Заказчик",
+                product.getCustomer(),
+                product::setCustomer
+        );
     }
 
     @Override

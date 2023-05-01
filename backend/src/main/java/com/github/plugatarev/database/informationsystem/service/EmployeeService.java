@@ -2,6 +2,8 @@ package com.github.plugatarev.database.informationsystem.service;
 
 import com.github.plugatarev.database.informationsystem.dto.EmployeeDto;
 import com.github.plugatarev.database.informationsystem.entity.Employee;
+import com.github.plugatarev.database.informationsystem.filter.EmployeeFilter;
+import com.github.plugatarev.database.informationsystem.filter.type.EmployeeTypeEnum;
 import com.github.plugatarev.database.informationsystem.mapper.EmployeeMapper;
 import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.repository.EmployeeRepository;
@@ -30,10 +32,29 @@ public class EmployeeService extends AbstractService<Employee, EmployeeDto> {
     }
 
     public Page<EmployeeDto> getDepartmentEmployees(Long departmentId, Pageable pageable) {
-        return employeeRepository.findEmployeesByDepartment(departmentId, pageable).map(employeeMapper::toDto);
+        return employeeRepository
+                .findEmployeesByDepartment(departmentId, pageable)
+                .map(employeeMapper::toDto);
     }
 
     public Page<EmployeeDto> getDepartmentRegionEmployees(Long departmentRegionId, Pageable pageable) {
-        return employeeRepository.findEmployeesByDepartmentRegion(departmentRegionId, pageable).map(employeeMapper::toDto);
+        return employeeRepository
+                .findEmployeesByDepartmentRegion(departmentRegionId, pageable)
+                .map(employeeMapper::toDto);
+    }
+
+    public Page<EmployeeDto> searchByFilter(EmployeeFilter filter, Pageable pageable) {
+        return employeeRepository
+                .searchByFilter(convertEmployeeTypeToString(filter.getEmployeeCategory()), pageable)
+                .map(employeeMapper::toDto);
+    }
+
+    private String convertEmployeeTypeToString(EmployeeTypeEnum employeeTypeEnum) {
+        if (employeeTypeEnum == null) return null;
+        return switch (employeeTypeEnum) {
+            case ENGINEER -> "engineering_staff";
+            case TESTER -> "laboratory_tester";
+            case WORKER -> "worker";
+        };
     }
 }

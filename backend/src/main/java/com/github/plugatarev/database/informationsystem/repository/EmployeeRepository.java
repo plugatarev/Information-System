@@ -29,4 +29,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             """)
     Page<Employee> findEmployeesByDepartmentRegion(Long drId, Pageable pageable);
 
+    @Query("""
+            select e from Employee e
+            where :employeeType is null or e.employeeCategoryType.employeeCategory.name=:employeeType
+            """)
+    Page<Employee> searchByFilter(String employeeType, Pageable pageable);
 }
