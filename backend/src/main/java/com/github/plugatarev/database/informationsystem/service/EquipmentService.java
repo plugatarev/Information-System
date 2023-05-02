@@ -38,6 +38,9 @@ public class EquipmentService extends AbstractService<Equipment, EquipmentDto> {
         Date minDateTest = filter.getMinDateTest() == null ? null : filter.getMinDateTest();
         Date maxDateTest = filter.getMaxDateTest() == null ? null : filter.getMaxDateTest();
 
+        if (laboratoryId == null && productId == null && productType == null && minDateTest == null && maxDateTest == null) {
+            return equipmentRepository.findAll(pageable).map(equipmentMapper::toDto);
+        }
         if (productId != null) {
             return equipmentRepository.searchByProductFilter(
                     productId,

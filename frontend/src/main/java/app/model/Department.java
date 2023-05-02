@@ -18,7 +18,7 @@ public class Department extends Entity {
     @Override
     public Department clone() {
         var clone = (Department) super.clone();
-        clone.setDepartmentChief(departmentChief.clone());
+        if (departmentChief != null) clone.setDepartmentChief(departmentChief.clone());
         return clone;
     }
 

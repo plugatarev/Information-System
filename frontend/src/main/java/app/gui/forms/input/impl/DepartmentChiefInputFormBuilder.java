@@ -4,6 +4,7 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.DepartmentChief;
+import app.model.EmployeeCategoryType;
 import app.services.EmployeeService;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
@@ -15,21 +16,55 @@ public class DepartmentChiefInputFormBuilder extends AbstractEntityInputFormBuil
 
     @Override
     protected void fillInputForm(DepartmentChief departmentChief, FormType formType, boolean isContextWindow, EntityInputFormController<DepartmentChief> controller) {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        ChoiceItemSupplier<Long> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
+                ServiceFactory.getEmployeeCategoryTypeService(),
+                c -> c.getEmployeeCategory().getName().equals("engineering_staff"),
+                c -> new ChoiceItem<>(c.getId(), c.getName()),
+                "Не удалось загрузить список типов для сотрудника"
+        );
 
-        ChoiceItemSupplier<Long> engineerIdSupplier = makeChoiceItemSupplierFromEntities(
-                employeeService,
-                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("engineering_staff"),
-                t -> new ChoiceItem<>(t.getId(), t.getFirstName() + " " + t.getSecondName()),
-                "Не удалось загрузить список инженеров"
+        controller.addTextField(
+                "Имя сотрудника",
+                departmentChief.getFirstName(),
+                departmentChief::setFirstName
+        );
+
+        controller.addTextField(
+                "Фамилия сотрудника",
+                departmentChief.getSecondName(),
+                departmentChief::setSecondName
+        );
+
+        controller.addTextField(
+                "Паспорт сотрудника",
+                departmentChief.getPassport(),
+                departmentChief::setPassport
         );
 
         controller.addChoiceBox(
-                "Инженер",
-                departmentChief.getId(),
-                departmentChief::setId,
-                engineerIdSupplier
+                "Тип сотрудника",
+                departmentChief.getEmployeeCategoryType() == null ? null : departmentChief.getEmployeeCategoryType().getId(),
+                value -> {
+                    EmployeeCategoryType categoryType = new EmployeeCategoryType();
+                    categoryType.setId(value);
+                    departmentChief.setEmployeeCategoryType(categoryType);
+                },
+                categoryEmployeeIdSupplier
         );
+
+        controller.addDateField(
+                "Дата трудоустройства",
+                departmentChief.getEmploymentDate(),
+                departmentChief::setEmploymentDate
+        );
+
+        if (formType == FormType.EDIT_FORM) {
+            controller.addDateField(
+                    "Дата увольнения",
+                    departmentChief.getDismissalDate(),
+                    departmentChief::setDismissalDate
+            );
+        }
     }
 
     @Override

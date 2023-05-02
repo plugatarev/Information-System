@@ -13,7 +13,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             select distinct e from Employee e where
             e.id in (select dr.departmentRegionChief.id from DepartmentRegion dr where (:departmentId is null or dr.department.id=:departmentId) and
             (:employeeType is null or dr.departmentRegionChief.employeeCategoryType.employeeCategory.name=:employeeType))
-            or e.id in (select m.id from Master m, DepartmentRegion dr where m.chief.id=dr.departmentRegionChief.id and (:departmentId is null or dr.department.id=:departmentId) and
+            or e.id in (select m.id from Master m, DepartmentRegion dr where m.departmentRegionChief.id=dr.departmentRegionChief.id and (:departmentId is null or dr.department.id=:departmentId) and
             (:employeeType is null or m.employeeCategoryType.employeeCategory.name=:employeeType))
             or e.id in (select d.departmentChief.id from Department d where (:departmentId is null or d.id=:departmentId) and
             (:employeeType is null or d.departmentChief.employeeCategoryType.employeeCategory.name=:employeeType))
@@ -28,7 +28,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             select distinct e from Employee e where
             e.id in (select dr.departmentRegionChief.id from DepartmentRegion dr where (:drId is null or dr.id=:drId) and
             (:employeeType is null or dr.departmentRegionChief.employeeCategoryType.employeeCategory.name=:employeeType))
-            or e.id in (select m.id from Master m, DepartmentRegion dr where m.chief.id=dr.departmentRegionChief.id and (:drId is null or dr.id=:drId) and
+            or e.id in (select m.id from Master m, DepartmentRegion dr where m.departmentRegionChief.id=dr.departmentRegionChief.id and (:drId is null or dr.id=:drId) and
             (:employeeType is null or m.employeeCategoryType.employeeCategory.name=:employeeType))
             or e.id in (select d.departmentChief.id from Department d, DepartmentRegion dr where d.id=dr.department.id and (:drId is null or dr.id=:drId) and
             (:employeeType is null or d.departmentChief.employeeCategoryType.employeeCategory.name=:employeeType))

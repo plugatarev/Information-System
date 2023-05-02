@@ -4,6 +4,7 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Department;
+import app.model.DepartmentChief;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -37,8 +38,12 @@ public class DepartmentInputFormBuilder extends AbstractEntityInputFormBuilder<D
 
         controller.addChoiceBox(
                 "Начальник",
-                department.getDepartmentChief().getId(),
-                value -> department.getDepartmentChief().setId(value),
+                department.getDepartmentChief() == null ? null : department.getDepartmentChief().getId(),
+                value -> {
+                    DepartmentChief dc = new DepartmentChief();
+                    dc.setId(value);
+                    department.setDepartmentChief(dc);
+                },
                 chiefIdSupplier
         );
 

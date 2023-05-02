@@ -13,7 +13,7 @@ public class EmployeeTypeAttribute extends AbstractEntity {
     @Column(name = "attribute_name", nullable = false)
     private String attributeName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_type")
     private EmployeeCategoryType employeeCategoryType;
 }

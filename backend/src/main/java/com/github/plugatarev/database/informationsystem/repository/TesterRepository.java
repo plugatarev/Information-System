@@ -31,4 +31,8 @@ public interface TesterRepository extends JpaRepository<Tester, Long> {
                     
                     """)
     Page<Tester> searchByType(Long laboratoryId, String productType, Date minDateTest, Date maxDateTest, Pageable pageable);
+
+    Page<Tester> findAll(Pageable pageable);
+
+    Page<Tester> findByLaboratoryId(Long laboratoryId, Pageable pageable);
 }

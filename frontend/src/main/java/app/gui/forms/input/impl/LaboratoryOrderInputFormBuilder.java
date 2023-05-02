@@ -3,7 +3,9 @@ package app.gui.forms.input.impl;
 import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
+import app.model.Laboratory;
 import app.model.LaboratoryOrder;
+import app.model.Product;
 import app.services.LaboratoryService;
 import app.services.ProductService;
 import app.utils.RequestExecutor;
@@ -33,15 +35,23 @@ public class LaboratoryOrderInputFormBuilder extends AbstractEntityInputFormBuil
 
         controller.addChoiceBox(
                 "Лаборатория",
-                laboratoryOrder.getLaboratory().getId(),
-                value -> laboratoryOrder.getLaboratory().setId(value),
+                laboratoryOrder.getLaboratory() == null ? null : laboratoryOrder.getLaboratory().getId(),
+                value -> {
+                    Laboratory laboratory = new Laboratory();
+                    laboratory.setId(value);
+                    laboratoryOrder.setLaboratory(laboratory);
+                },
                 laboratoryIdSupplier
         );
 
         controller.addChoiceBox(
                 "Изделие",
-                laboratoryOrder.getProduct().getId(),
-                value -> laboratoryOrder.getProduct().setId(value),
+                laboratoryOrder.getProduct() == null ? null : laboratoryOrder.getProduct().getId(),
+                value -> {
+                    Product product = new Product();
+                    product.setId(value);
+                    laboratoryOrder.setProduct(product);
+                },
                 productIdSupplier
         );
     }

@@ -11,18 +11,18 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ProductProcess extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product", nullable = false)
     private Product product;
 
     @Column(name = "description_work", nullable = false)
     private String descriptionWork;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collecting_brigade")
     private Brigade collectingBrigade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status", nullable = false)
     private ProductStatus status;
 

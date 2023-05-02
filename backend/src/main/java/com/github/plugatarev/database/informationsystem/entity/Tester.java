@@ -1,7 +1,6 @@
 package com.github.plugatarev.database.informationsystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,4 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Tester extends Employee {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "laboratory")
+    private Laboratory laboratory;
 }

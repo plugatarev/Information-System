@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorkerBrigadeRepository extends JpaRepository<WorkerBrigade, Long> {
 
-    Page<WorkerBrigade> findAllByBrigadeId(Long brigadeId, Pageable pageable);
+    @Query(value = "select wb.worker from WorkerBrigade wb where wb.brigade.id=:brigadeId")
+    Page<Employee> findWorkersByBrigadeId(Long brigadeId, Pageable pageable);
     boolean existsByBrigadeAndWorker(Brigade brigade, Employee worker);
 
     @Query(value = """

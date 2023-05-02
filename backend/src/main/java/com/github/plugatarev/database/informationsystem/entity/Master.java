@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class Master extends Employee {
 
-    @ManyToOne
-    @JoinColumn(name = "chief", referencedColumnName = "id")
-    private Employee chief;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_region_chief", referencedColumnName = "id")
+    private Employee departmentRegionChief;
 }

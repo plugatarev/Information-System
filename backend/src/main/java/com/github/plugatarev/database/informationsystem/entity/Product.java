@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Product extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_type", nullable = false)
     private ProductCategoryType categoryType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_department")
     private Department manufacturerDepartment;
 

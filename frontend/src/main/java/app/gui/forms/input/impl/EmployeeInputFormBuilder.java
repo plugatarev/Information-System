@@ -4,6 +4,7 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Employee;
+import app.model.EmployeeCategoryType;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -47,8 +48,12 @@ public class EmployeeInputFormBuilder extends AbstractEntityInputFormBuilder<Emp
 
         controller.addChoiceBox(
                 "Тип сотрудника",
-                employee.getEmployeeCategoryType().getId(),
-                value -> employee.getEmployeeCategoryType().setId(value),
+                employee.getEmployeeCategoryType() == null ? null : employee.getEmployeeCategoryType().getId(),
+                value -> {
+                    EmployeeCategoryType categoryType = new EmployeeCategoryType();
+                    categoryType.setId(value);
+                    employee.setEmployeeCategoryType(categoryType);
+                },
                 categoryEmployeeIdSupplier
 
         );

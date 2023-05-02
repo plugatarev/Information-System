@@ -3,7 +3,9 @@ package app.gui.forms.input.impl;
 import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
+import app.model.Equipment;
 import app.model.Test;
+import app.model.Tester;
 import app.services.EquipmentService;
 import app.services.TesterService;
 import app.utils.RequestExecutor;
@@ -33,15 +35,23 @@ public class TestInputFormBuilder extends AbstractEntityInputFormBuilder<Test> {
 
         controller.addChoiceBox(
                 "Оборудование",
-                test.getEquipment().getId(),
-                value -> test.getEquipment().setId(value),
+                test.getEquipment() == null ? null : test.getEquipment().getId(),
+                value -> {
+                    Equipment equipment = new Equipment();
+                    equipment.setId(value);
+                    test.setEquipment(equipment);
+                },
                 equipmentIdSupplier
         );
 
         controller.addChoiceBox(
-                "Изделие",
-                test.getTester().getId(),
-                value -> test.getTester().setId(value),
+                "Тестировщик",
+                test.getTester() == null ? null : test.getTester().getId(),
+                value -> {
+                    Tester tester = new Tester();
+                    tester.setId(value);
+                    test.setTester(tester);
+                },
                 testerIdSupplier
         );
 

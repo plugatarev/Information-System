@@ -3,7 +3,9 @@ package app.gui.forms.input.impl;
 import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
+import app.model.Department;
 import app.model.DepartmentRegion;
+import app.model.DepartmentRegionChief;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -42,15 +44,23 @@ public class DepartmentRegionInputFormBuilder extends AbstractEntityInputFormBui
 
         controller.addChoiceBox(
                 "Начальник",
-                departmentRegion.getDepartmentRegionChief().getId(),
-                value -> departmentRegion.getDepartmentRegionChief().setId(value),
+                departmentRegion.getDepartmentRegionChief() == null ? null : departmentRegion.getDepartmentRegionChief().getId(),
+                value -> {
+                    DepartmentRegionChief drc = new DepartmentRegionChief();
+                    drc.setId(value);
+                    departmentRegion.setDepartmentRegionChief(drc);
+                },
                 chiefIdSupplier
         );
 
         controller.addChoiceBox(
                 "Цех",
-                departmentRegion.getDepartment().getId(),
-                value -> departmentRegion.getDepartment().setId(value),
+                departmentRegion.getDepartment() == null ? null : departmentRegion.getDepartment().getId(),
+                value -> {
+                    Department department = new Department();
+                    department.setId(value);
+                    departmentRegion.setDepartment(department);
+                },
                 departmentIdSupplier
         );
     }

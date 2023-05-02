@@ -3,7 +3,6 @@ package com.github.plugatarev.database.informationsystem.service;
 import com.github.plugatarev.database.informationsystem.dto.EmployeeDto;
 import com.github.plugatarev.database.informationsystem.dto.WorkerBrigadeDto;
 import com.github.plugatarev.database.informationsystem.entity.WorkerBrigade;
-import com.github.plugatarev.database.informationsystem.exception.EntityNotUniqueException;
 import com.github.plugatarev.database.informationsystem.mapper.EmployeeMapper;
 import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.mapper.WorkerBrigadeMapper;
@@ -32,19 +31,8 @@ public class WorkerBrigadeService extends AbstractService<WorkerBrigade, WorkerB
         return workerBrigadeMapper;
     }
 
-    @Override
-    public WorkerBrigadeDto create(WorkerBrigadeDto dto) {
-        var entity = getMapper().toEntity(dto);
-        if (workerBrigadeRepository.existsByBrigadeAndWorker(entity.getBrigade(), entity.getWorker())) {
-            throw new EntityNotUniqueException("This worker already work it this brigade!");
-        }
-        entity = getRepository().save(entity);
-        return getMapper().toDto(entity);
-    }
-
     public Page<EmployeeDto> getBrigadeWorkers(Long brigadeId, Pageable pageable) {
-        Page<WorkerBrigade> employees = workerBrigadeRepository.findAllByBrigadeId(brigadeId, pageable);
-        return employees.map(s -> workerBrigadeMapper.toDto(s).getWorker());
+        return workerBrigadeRepository.findWorkersByBrigadeId(brigadeId, pageable).map(employeeMapper::toDto);
     }
 
     public Page<EmployeeDto> getBrigadeWorkersByProduct(Long productId, Pageable pageable) {

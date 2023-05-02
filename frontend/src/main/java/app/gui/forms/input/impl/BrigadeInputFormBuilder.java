@@ -4,6 +4,8 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Brigade;
+import app.model.Brigadier;
+import app.model.DepartmentRegion;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -43,15 +45,23 @@ public class BrigadeInputFormBuilder extends AbstractEntityInputFormBuilder<Brig
 
         controller.addChoiceBox(
                 "Бригадир",
-                brigade.getBrigadier().getId(),
-                value -> brigade.getBrigadier().setId(value),
+                brigade.getBrigadier() == null ? null : brigade.getBrigadier().getId(),
+                value -> {
+                    Brigadier brigadier = new Brigadier();
+                    brigadier.setId(value);
+                    brigade.setBrigadier(brigadier);
+                },
                 brigadierIdSupplier
         );
 
         controller.addChoiceBox(
                 "Участок",
-                brigade.getDepartmentRegion().getId(),
-                value -> brigade.getDepartmentRegion().setId(value),
+                brigade.getDepartmentRegion() == null ? null : brigade.getDepartmentRegion().getId(),
+                value -> {
+                    DepartmentRegion dr = new DepartmentRegion();
+                    dr.setId(value);
+                    brigade.setDepartmentRegion(dr);
+                },
                 departmentRegionIdSupplier
         );
     }

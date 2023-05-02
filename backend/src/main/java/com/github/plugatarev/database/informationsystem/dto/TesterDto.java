@@ -6,4 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TesterDto extends EmployeeDto {
+    private LaboratoryDto laboratoryDto;
 }

@@ -13,7 +13,7 @@ public class Department extends AbstractEntity {
     @Column(name = "department_name", nullable = false, unique = true)
     private String departmentName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_chief")
     private Employee departmentChief;
 }

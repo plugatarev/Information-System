@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class EmployeeProperty extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee")
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attribute")
     private EmployeeTypeAttribute attribute;
 

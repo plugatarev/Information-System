@@ -13,7 +13,7 @@ public class ProductTypeAttribute extends AbstractEntity {
     @Column(name = "attribute_name", nullable = false)
     private String attributeName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category", referencedColumnName = "id", nullable = false)
     private ProductCategory category;
 }

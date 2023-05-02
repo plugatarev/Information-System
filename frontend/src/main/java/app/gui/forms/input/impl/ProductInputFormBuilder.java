@@ -3,7 +3,9 @@ package app.gui.forms.input.impl;
 import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
+import app.model.Department;
 import app.model.Product;
+import app.model.ProductCategoryType;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -33,15 +35,23 @@ public class ProductInputFormBuilder extends AbstractEntityInputFormBuilder<Prod
         );
         controller.addChoiceBox(
                 "Тип изделия",
-                product.getCategoryType().getId(),
-                value -> product.getCategoryType().setId(value),
+                product.getCategoryType() == null ? null : product.getCategoryType().getId(),
+                value -> {
+                    ProductCategoryType productCategoryType = new ProductCategoryType();
+                    productCategoryType.setId(value);
+                    product.setCategoryType(productCategoryType);
+                },
                 categoryProductIdSupplier
         );
 
         controller.addChoiceBox(
                 "Цех сборщик",
-                product.getManufacturerDepartment().getId(),
-                value -> product.getManufacturerDepartment().setId(value),
+                product.getManufacturerDepartment() == null ? null : product.getManufacturerDepartment().getId(),
+                value -> {
+                    Department department = new Department();
+                    department.setId(value);
+                    product.setManufacturerDepartment(department);
+                },
                 departmentIdSupplier
         );
 

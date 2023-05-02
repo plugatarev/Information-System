@@ -3,7 +3,10 @@ package app.gui.forms.input.impl;
 import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
+import app.model.Brigade;
+import app.model.Product;
 import app.model.ProductProcess;
+import app.model.ProductStatus;
 import app.services.BrigadeService;
 import app.services.ProductService;
 import app.services.ProductStatusService;
@@ -41,22 +44,34 @@ public class ProductProcessInputFormBuilder  extends AbstractEntityInputFormBuil
 
         controller.addChoiceBox(
                 "Изделие",
-                productProcess.getProduct().getId(),
-                value -> productProcess.getProduct().setId(value),
+                productProcess.getProduct() == null ? null : productProcess.getProduct().getId(),
+                value -> {
+                    Product product = new Product();
+                    product.setId(value);
+                    productProcess.setProduct(product);
+                },
                 productIdSupplier
         );
 
         controller.addChoiceBox(
                 "Бригада",
-                productProcess.getCollectingBrigade().getId(),
-                value -> productProcess.getCollectingBrigade().setId(value),
+                productProcess.getCollectingBrigade() == null ? null : productProcess.getCollectingBrigade().getId(),
+                value -> {
+                    Brigade brigade = new Brigade();
+                    brigade.setId(value);
+                    productProcess.setCollectingBrigade(brigade);
+                },
                 brigadeIdSupplier
         );
 
         controller.addChoiceBox(
                 "Статус",
-                productProcess.getStatus().getId(),
-                value -> productProcess.getStatus().setId(value),
+                productProcess.getStatus() == null ? null : productProcess.getStatus().getId(),
+                value -> {
+                    ProductStatus productStatus = new ProductStatus();
+                    productStatus.setId(value);
+                    productProcess.setStatus(productStatus);
+                },
                 productStatusIdSupplier
         );
 

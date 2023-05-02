@@ -19,8 +19,8 @@ public class DepartmentRegion extends Entity {
     @Override
     public DepartmentRegion clone() {
         var clone = (DepartmentRegion) super.clone();
-        clone.setDepartmentRegionChief(departmentRegionChief.clone());
-        clone.setDepartment(department.clone());
+        if (departmentRegionChief != null) clone.setDepartmentRegionChief(departmentRegionChief.clone());
+        if (department != null) clone.setDepartment(department.clone());
         return clone;
     }
 

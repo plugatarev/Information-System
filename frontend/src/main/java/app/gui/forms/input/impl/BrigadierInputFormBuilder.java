@@ -4,7 +4,7 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Brigadier;
-import app.services.EmployeeService;
+import app.model.EmployeeCategoryType;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -15,21 +15,55 @@ public class BrigadierInputFormBuilder extends AbstractEntityInputFormBuilder<Br
 
     @Override
     protected void fillInputForm(Brigadier brigadier, FormType formType, boolean isContextWindow, EntityInputFormController<Brigadier> controller) {
-        EmployeeService employeeService = ServiceFactory.getEmployeeService();
+        ChoiceItemSupplier<Long> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
+                ServiceFactory.getEmployeeCategoryTypeService(),
+                c -> c.getEmployeeCategory().getName().equals("worker"),
+                c -> new ChoiceItem<>(c.getId(), c.getName()),
+                "Не удалось загрузить список типов для сотрудника"
+        );
 
-        ChoiceItemSupplier<Long> brigadierIdSupplier = makeChoiceItemSupplierFromEntities(
-                employeeService,
-                t -> t.getEmployeeCategoryType().getEmployeeCategory().getName().equals("worker"),
-                t -> new ChoiceItem<>(t.getId(), t.getFirstName() + t.getSecondName()),
-                "Не удалось загрузить список работников"
+        controller.addTextField(
+                "Имя сотрудника",
+                brigadier.getFirstName(),
+                brigadier::setFirstName
+        );
+
+        controller.addTextField(
+                "Фамилия сотрудника",
+                brigadier.getSecondName(),
+                brigadier::setSecondName
+        );
+
+        controller.addTextField(
+                "Паспорт сотрудника",
+                brigadier.getPassport(),
+                brigadier::setPassport
         );
 
         controller.addChoiceBox(
-                "Работник",
-                brigadier.getId(),
-                brigadier::setId,
-                brigadierIdSupplier
+                "Тип сотрудника",
+                brigadier.getEmployeeCategoryType() == null ? null : brigadier.getEmployeeCategoryType().getId(),
+                value -> {
+                    EmployeeCategoryType categoryType = new EmployeeCategoryType();
+                    categoryType.setId(value);
+                    brigadier.setEmployeeCategoryType(categoryType);
+                },
+                categoryEmployeeIdSupplier
         );
+
+        controller.addDateField(
+                "Дата трудоустройства",
+                brigadier.getEmploymentDate(),
+                brigadier::setEmploymentDate
+        );
+
+        if (formType == FormType.EDIT_FORM) {
+            controller.addDateField(
+                    "Дата увольнения",
+                    brigadier.getDismissalDate(),
+                    brigadier::setDismissalDate
+            );
+        }
     }
 
     @Override

@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Test extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipment", referencedColumnName = "id")
     private Equipment equipment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratory_employee", referencedColumnName = "id")
     private Tester tester;
 

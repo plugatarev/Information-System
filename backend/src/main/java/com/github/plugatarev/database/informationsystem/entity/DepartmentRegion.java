@@ -12,11 +12,11 @@ public class DepartmentRegion extends AbstractEntity {
     @Column(name = "region_name", unique = true, nullable = false)
     private String regionName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department")
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_region_chief")
     private Employee departmentRegionChief;
 }

@@ -11,11 +11,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class OrderTest extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratory_order", referencedColumnName = "id")
     private LaboratoryOrder laboratoryOrder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test", referencedColumnName = "id")
     private Test test;
 

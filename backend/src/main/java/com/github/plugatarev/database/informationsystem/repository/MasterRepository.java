@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 public interface MasterRepository extends JpaRepository<Master, Long> {
     @Query(value = """
             select m from Master m, DepartmentRegion dr
-            where m.chief.id=dr.departmentRegionChief.id and dr.department.id=:departmentId
+            where m.departmentRegionChief.id=dr.departmentRegionChief.id and dr.department.id=:departmentId
             """)
     Page<Master> findMastersByDepartment(Long departmentId, Pageable pageable);
 
     @Query(value = """
             select m from Master m, DepartmentRegion dr
-            where m.chief.id=dr.departmentRegionChief.id and dr.id=:drId
+            where m.departmentRegionChief.id=dr.departmentRegionChief.id and dr.id=:drId
             """)
     Page<Master> findMastersByDepartmentRegion(Long drId, Pageable pageable);
 }

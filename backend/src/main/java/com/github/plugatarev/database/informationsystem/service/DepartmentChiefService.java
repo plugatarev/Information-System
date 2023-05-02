@@ -2,7 +2,6 @@ package com.github.plugatarev.database.informationsystem.service;
 
 import com.github.plugatarev.database.informationsystem.dto.DepartmentChiefDto;
 import com.github.plugatarev.database.informationsystem.entity.DepartmentChief;
-import com.github.plugatarev.database.informationsystem.entity.Employee;
 import com.github.plugatarev.database.informationsystem.mapper.DepartmentChiefMapper;
 import com.github.plugatarev.database.informationsystem.mapper.IMapper;
 import com.github.plugatarev.database.informationsystem.repository.DepartmentChiefRepository;
@@ -17,7 +16,6 @@ public class DepartmentChiefService extends AbstractService<DepartmentChief, Dep
 
     private final DepartmentChiefRepository departmentChiefRepository;
     private final DepartmentChiefMapper departmentChiefMapper;
-    private final EmployeeRepository employeeRepository;
 
     @Override
     protected JpaRepository<DepartmentChief, Long> getRepository() {
@@ -27,27 +25,6 @@ public class DepartmentChiefService extends AbstractService<DepartmentChief, Dep
     @Override
     protected IMapper<DepartmentChief, DepartmentChiefDto> getMapper() {
         return departmentChiefMapper;
-    }
-
-    @Override
-    public DepartmentChiefDto create(DepartmentChiefDto dto) {
-        var entity = employeeRepository.findById(dto.getId()).get();
-        DepartmentChief departmentChief = employeeToDepartmentChief(entity);
-        departmentChief = departmentChiefRepository.save(departmentChief);
-        return departmentChiefMapper.toDto(departmentChief);
-    }
-
-
-    private DepartmentChief employeeToDepartmentChief(Employee employee) {
-        DepartmentChief departmentChief = new DepartmentChief();
-        departmentChief.setId(employee.getId());
-        departmentChief.setFirstName(employee.getFirstName());
-        departmentChief.setSecondName(employee.getSecondName());
-        departmentChief.setPassport(employee.getPassport());
-        departmentChief.setEmploymentDate(employee.getEmploymentDate());
-        departmentChief.setDismissalDate(employee.getDismissalDate());
-        departmentChief.setEmployeeCategoryType(employee.getEmployeeCategoryType());
-        return departmentChief;
     }
 }
 

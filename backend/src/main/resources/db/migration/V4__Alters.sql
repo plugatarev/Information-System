@@ -1,0 +1,1 @@
+ALTER TABLE master RENAME COLUMN chief to department_region_chief;

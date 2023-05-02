@@ -22,7 +22,7 @@ public class Employee extends AbstractEntity {
     @Column(name = "passport", nullable = false)
     private String passport;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_type")
     private EmployeeCategoryType employeeCategoryType;
 

@@ -14,11 +14,11 @@ public class Brigade extends AbstractEntity {
     @Column(name = "brigade_name", nullable = false, unique = true)
     private String brigadeName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brigadier", referencedColumnName = "id")
     private Brigadier brigadier;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_region", referencedColumnName = "id")
     private DepartmentRegion departmentRegion;
 }

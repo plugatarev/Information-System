@@ -11,14 +11,14 @@ import java.util.Map;
 public class Master extends Employee {
 
     private String masterName;
-    private DepartmentRegionChief chief = new DepartmentRegionChief();
+    private Employee departmentRegionChief = new DepartmentRegionChief();
 
     private String chiefNameProperty;
 
     @Override
     public Master clone() {
         var clone = (Master) super.clone();
-        clone.setChief(chief.clone());
+        clone.setDepartmentRegionChief(departmentRegionChief.clone());
         return (Master) super.clone();
     }
 
@@ -26,7 +26,7 @@ public class Master extends Employee {
     public void calculateProperties() {
         super.calculateProperties();
         masterName = getFirstName() + " " + getSecondName();
-        if (chief != null) chiefNameProperty = chief.getFirstName() + " " + chief.getSecondName();
+        if (departmentRegionChief != null) chiefNameProperty = departmentRegionChief.getFirstName() + " " + departmentRegionChief.getSecondName();
     }
 
     private static final Map<String, String> propertyNames = new LinkedHashMap<>();
