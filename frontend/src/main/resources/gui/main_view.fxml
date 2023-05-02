@@ -119,7 +119,12 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="testButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openTests" text="Испытания">
+                                    <Button fx:id="testButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openTests" text="Виды испытаний">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="testOrderButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openTestOrders" text="Испытания изделий">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>

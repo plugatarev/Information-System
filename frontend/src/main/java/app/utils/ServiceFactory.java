@@ -25,6 +25,10 @@ public class ServiceFactory {
         return new DepartmentChiefServiceImpl(SERVER_HOSTNAME);
     }
 
+    public OrderTestServiceImpl getOrderTestService() {
+        return new OrderTestServiceImpl(SERVER_HOSTNAME);
+    }
+
     public DepartmentRegionChiefService getDepartmentRegionChiefService() {
         return new DepartmentRegionChiefServiceImpl(SERVER_HOSTNAME);
     }

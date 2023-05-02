@@ -25,4 +25,11 @@ public class OrderTestService extends AbstractService<OrderTest, OrderTestDto> {
     protected IMapper<OrderTest, OrderTestDto> getMapper() {
         return orderTestMapper;
     }
+
+    @Override
+    public OrderTestDto create(OrderTestDto dto) {
+        var entity = getMapper().toEntity(dto);
+        entity = getRepository().save(entity);
+        return getMapper().toDto(entity);
+    }
 }

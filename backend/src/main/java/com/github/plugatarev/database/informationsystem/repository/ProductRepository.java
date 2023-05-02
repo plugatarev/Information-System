@@ -31,11 +31,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 (:dId is null or pp.product.manufacturerDepartment.id=:dId)
                 """)
     Page<Product> searchByFilter(String productType,
-                                           String productStatus,
-                                           Date minAssembledDate,
-                                           Date maxAssembledDate,
-                                           Long dId,
-                                           Pageable pageable);
+                                 String productStatus,
+                                 Date minAssembledDate,
+                                 Date maxAssembledDate,
+                                 Long dId,
+                                 Pageable pageable);
 
     @Query(value = """
                 select pp.product from ProductProcess pp, OrderTest ot where
@@ -49,10 +49,25 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 (cast(:minLaboratoryDate as date) is null or ot.testingDate >= cast(:minLaboratoryDate as date)) and
                 (cast(:maxLaboratoryDate as date) is null or ot.testingDate <= cast(:maxLaboratoryDate as date))
                 """)
-    Page<Product> searchByLaboratoryFilter(String productType,
+    Page<Product> searchByLaboratoryAndProductFilter(String productType,
                                            String productStatus,
                                            Date minAssembledDate,
                                            Date maxAssembledDate,
+                                           Long dId,
+                                           Long laboratoryId,
+                                           Date minLaboratoryDate,
+                                           Date maxLaboratoryDate,
+                                           Pageable pageable);
+
+    @Query(value = """
+                select ot.laboratoryOrder.product from OrderTest ot where
+                (:productType is null or ot.laboratoryOrder.product.categoryType.category.name=:productType) and
+                (:dId is null or ot.laboratoryOrder.product.manufacturerDepartment.id=:dId) and
+                (:laboratoryId is null or ot.laboratoryOrder.laboratory.id=:laboratoryId) and
+                (cast(:minLaboratoryDate as date) is null or ot.testingDate >= cast(:minLaboratoryDate as date)) and
+                (cast(:maxLaboratoryDate as date) is null or ot.testingDate <= cast(:maxLaboratoryDate as date))
+                """)
+    Page<Product> searchByLaboratoryFilter(String productType,
                                            Long dId,
                                            Long laboratoryId,
                                            Date minLaboratoryDate,

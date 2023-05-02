@@ -146,8 +146,7 @@ public class MainController {
                 new BrigadierInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null,
-                false
+                null
         );
     }
 
@@ -209,8 +208,7 @@ public class MainController {
                 new DepartmentChiefInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null,
-                false
+                null
         );
     }
 
@@ -224,8 +222,7 @@ public class MainController {
                 new DepartmentRegionChiefInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null,
-                false
+                null
         );
     }
 
@@ -239,8 +236,7 @@ public class MainController {
                 new MasterInputFormBuilder(requestExecutor),
                 null,
                 null,
-                null,
-                false
+                null
         );
     }
 
@@ -254,8 +250,7 @@ public class MainController {
                 new TesterInputFormBuilder(requestExecutor),
                 null,
                 new TesterFilterBoxBuilder(),
-                TesterFilter::new,
-                false
+                TesterFilter::new
         );
     }
 
@@ -384,11 +379,25 @@ public class MainController {
     @FXML
     void openTests() {
         createEntityTable(
-                "Тесты",
+                "Виды испытаний",
                 Test.getPropertyNames(),
                 Test.getSortPropertyNames(),
                 ServiceFactory.getTestService(),
                 new TestInputFormBuilder(requestExecutor),
+                null,
+                null,
+                null
+        );
+    }
+
+    @FXML
+    void openTestOrders() {
+        createEntityTable(
+                "Испытание изделий",
+                OrderTest.getPropertyNames(),
+                OrderTest.getSortPropertyNames(),
+                ServiceFactory.getOrderTestService(),
+                new OrderTestInputFormBuilder(requestExecutor),
                 null,
                 null,
                 null
@@ -597,94 +606,4 @@ public class MainController {
 
         return table;
     }
-
-    @SneakyThrows
-    private <T extends Entity> Node createInfoWindowEntityTable(
-            Map<String, String> entityPropertyNames,
-            Map<String, String> entitySortPropertyNames,
-            EntityTableController.EntitySource<T> entitySource,
-            EntityTableController.EntityRemover<T> entityRemover,
-            EntityInputFormBuilder<T> inputFormBuilder,
-            Supplier<T> newEntitySupplier,
-            boolean isUpdatable
-    ) {
-
-        FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
-        Node table = tableLoader.load();
-
-        EntityTableController<T> entityTableController = tableLoader.getController();
-        entityTableController.setEntitySource(entitySource);
-        entityTableController.setEntityRemover(entityRemover);
-        entityTableController.setRequestExecutor(requestExecutor);
-        entityTableController.init(
-                entityPropertyNames,
-                entitySortPropertyNames,
-                inputFormBuilder,
-                newEntitySupplier,
-                true,
-                this::setStatusBarMessage,
-                null,
-                isUpdatable
-        );
-
-        return table;
-    }
-
-    @SneakyThrows
-    private <T extends Entity> EntityTableController<T> createEntityTable(
-            String tableName,
-            Map<String, String> entityPropertyNames,
-            Map<String, String> entitySortPropertyNames,
-            Service<T> entityService,
-            EntityInputFormBuilder<T> inputFormBuilder,
-            ContextWindowBuilder<T> infoWindowBuilder,
-            FilterBoxBuilder<T> filterBoxBuilder,
-            Supplier<Filter> newFilterSupplier,
-            boolean isUpdatable
-    ) {
-        FXMLLoader tableLoader = FxmlLoaderFactory.createEntityTableLoader();
-        Node table = tableLoader.load();
-
-        Tab tableTab = new Tab(tableName);
-        tableTab.setContent(table);
-        tableTab.setOnClosed(event -> {
-            if (contentTabPane.getTabs().isEmpty()) {
-                contentTabPane.getTabs().add(defaultTab);
-            }
-        });
-
-        contentTabPane.getTabs().remove(defaultTab);
-        contentTabPane.getTabs().add(tableTab);
-        contentTabPane.getSelectionModel().select(tableTab);
-
-        EntityTableController<T> controller = tableLoader.getController();
-        controller.setInfoWindowBuilder(infoWindowBuilder);
-
-        controller.setEntityRemover(entityService::deleteById);
-
-        Node filterBox = null;
-        if (filterBoxBuilder != null && newFilterSupplier != null) {
-            Filter filter = newFilterSupplier.get();
-            filterBox = filterBoxBuilder.buildFilterBox(filter);
-            controller.setEntitySource(pageInfo -> entityService.search(filter, pageInfo));
-        } else {
-            controller.setEntitySource(entityService::getAll);
-        }
-
-        controller.setRequestExecutor(requestExecutor);
-
-        controller.init(
-                entityPropertyNames,
-                entitySortPropertyNames,
-                inputFormBuilder,
-                null,
-                false,
-                this::setStatusBarMessage,
-                filterBox,
-                isUpdatable
-        );
-
-        return controller;
-    }
-
 }

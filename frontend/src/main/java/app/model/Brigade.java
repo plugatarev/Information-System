@@ -19,8 +19,8 @@ public class Brigade extends Entity {
     @Override
     public Brigade clone() {
         var clone = (Brigade) super.clone();
-        clone.setBrigadier(brigadier.clone());
-        clone.setDepartmentRegion(departmentRegion.clone());
+        if (brigadier != null) clone.setBrigadier(brigadier.clone());
+        if (departmentRegion != null) clone.setDepartmentRegion(departmentRegion.clone());
         return clone;
     }
 

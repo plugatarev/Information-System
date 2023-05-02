@@ -5,7 +5,6 @@ import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.DepartmentChief;
 import app.model.EmployeeCategoryType;
-import app.services.EmployeeService;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
