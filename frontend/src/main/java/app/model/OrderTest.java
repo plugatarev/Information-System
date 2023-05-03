@@ -50,13 +50,13 @@ public class OrderTest extends Entity {
         propertyNames.put("productProperty", "Продукт");
         propertyNames.put("laboratoryProperty", "Лаборатория");
         propertyNames.put("testProperty", "Тест");
-        propertyNames.put("testingDateProperty", "Описание");
+        propertyNames.put("testingDateProperty", "Дата тестирования");
 
         sortPropertyNames.putAll(Entity.getPropertyNames());
         sortPropertyNames.put("productProperty", "Продукт");
         sortPropertyNames.put("laboratoryProperty", "Лаборатория");
         sortPropertyNames.put("testProperty", "Тест");
-        sortPropertyNames.put("testingDateProperty", "Описание");
+        sortPropertyNames.put("testingDateProperty", "Дата тестирования");
     }
 
     public static Map<String, String> getPropertyNames() {

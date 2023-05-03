@@ -19,7 +19,7 @@ public class Tester extends Employee {
     @Override
     public Tester clone() {
         var tester = (Tester) super.clone();
-        tester.setLaboratory(laboratory.clone());
+        if (laboratory != null) tester.setLaboratory(laboratory.clone());
         return tester;
     }
 

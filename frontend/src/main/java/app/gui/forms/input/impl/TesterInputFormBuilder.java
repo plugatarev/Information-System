@@ -6,7 +6,6 @@ import app.gui.custom.ChoiceItem;
 import app.model.EmployeeCategoryType;
 import app.model.Laboratory;
 import app.model.Tester;
-import app.services.EmployeeService;
 import app.utils.RequestExecutor;
 import app.utils.ServiceFactory;
 
@@ -17,9 +16,9 @@ public class TesterInputFormBuilder extends AbstractEntityInputFormBuilder<Teste
 
     @Override
     protected void fillInputForm(Tester tester, FormType formType, boolean isContextWindow, EntityInputFormController<Tester> controller) {
-        ChoiceItemSupplier<Long> laboratoryIdSupplier = makeChoiceItemSupplierFromEntities(
+        ChoiceItemSupplier<Laboratory> laboratorySupplier = makeChoiceItemSupplierFromEntities(
                 ServiceFactory.getLaboratoryService(),
-                t -> new ChoiceItem<>(t.getId(), t.getLaboratoryName()),
+                t -> new ChoiceItem<>(t, t.getLaboratoryName()),
                 "Не удалось загрузить список лабораторий"
         );
 
@@ -75,13 +74,9 @@ public class TesterInputFormBuilder extends AbstractEntityInputFormBuilder<Teste
 
         controller.addChoiceBox(
                 "Лаборатория",
-                tester.getLaboratory() == null ? null : tester.getLaboratory().getId(),
-                value -> {
-                    Laboratory laboratory = new Laboratory();
-                    laboratory.setId(value);
-                    tester.setLaboratory(laboratory);
-                },
-                laboratoryIdSupplier
+                tester.getLaboratory() == null ? null : tester.getLaboratory(),
+                tester::setLaboratory,
+                laboratorySupplier
         );
     }
 
