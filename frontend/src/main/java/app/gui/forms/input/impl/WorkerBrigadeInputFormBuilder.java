@@ -24,10 +24,10 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
                 "Не удалось загрузить список бригад"
         );
 
-        ChoiceItemSupplier<Long> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
+        ChoiceItemSupplier<EmployeeCategoryType> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
                 ServiceFactory.getEmployeeCategoryTypeService(),
                 c -> c.getEmployeeCategory().getName().equals("worker"),
-                c -> new ChoiceItem<>(c.getId(), c.getName()),
+                c -> new ChoiceItem<>(c, c.getName()),
                 "Не удалось загрузить список типов для сотрудника"
         );
 
@@ -51,12 +51,8 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
 
         controller.addChoiceBox(
                 "Тип сотрудника",
-                workerBrigade.getWorker().getEmployeeCategoryType() == null ? null : workerBrigade.getWorker().getEmployeeCategoryType().getId(),
-                value -> {
-                    EmployeeCategoryType categoryType = new EmployeeCategoryType();
-                    categoryType.setId(value);
-                    workerBrigade.getWorker().setEmployeeCategoryType(categoryType);
-                },
+                workerBrigade.getWorker().getEmployeeCategoryType() == null ? null : workerBrigade.getWorker().getEmployeeCategoryType(),
+                value -> workerBrigade.getWorker().setEmployeeCategoryType(value),
                 categoryEmployeeIdSupplier
         );
 
