@@ -124,8 +124,8 @@ create table region_brigade(
 );
 
 create table master(
-    id           bigint primary key references employee(id) on delete cascade on update cascade,
-    chief        bigint references department_region_chief(id) on delete set null on update cascade
+    id                      bigint primary key references employee(id) on delete cascade on update cascade,
+    department_region_chief bigint references department_region_chief(id) on delete set null on update cascade
 );
 
 create table laboratory(

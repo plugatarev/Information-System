@@ -4,7 +4,6 @@ import app.gui.controllers.EntityInputFormController;
 import app.gui.controllers.interfaces.ChoiceItemSupplier;
 import app.gui.custom.ChoiceItem;
 import app.model.Brigade;
-import app.model.EmployeeCategoryType;
 import app.model.WorkerBrigade;
 import app.services.BrigadeService;
 import app.utils.RequestExecutor;
@@ -24,10 +23,10 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
                 "Не удалось загрузить список бригад"
         );
 
-        ChoiceItemSupplier<EmployeeCategoryType> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
+        ChoiceItemSupplier<Long> categoryEmployeeIdSupplier = makeChoiceItemSupplierFromEntities(
                 ServiceFactory.getEmployeeCategoryTypeService(),
                 c -> c.getEmployeeCategory().getName().equals("worker"),
-                c -> new ChoiceItem<>(c, c.getName()),
+                c -> new ChoiceItem<>(c.getId(), c.getName()),
                 "Не удалось загрузить список типов для сотрудника"
         );
 
@@ -51,8 +50,8 @@ public class WorkerBrigadeInputFormBuilder extends AbstractEntityInputFormBuilde
 
         controller.addChoiceBox(
                 "Тип сотрудника",
-                workerBrigade.getWorker().getEmployeeCategoryType() == null ? null : workerBrigade.getWorker().getEmployeeCategoryType(),
-                value -> workerBrigade.getWorker().setEmployeeCategoryType(value),
+                workerBrigade.getWorker().getEmployeeCategoryType() == null ? null : workerBrigade.getWorker().getEmployeeCategoryType().getId(),
+                value -> workerBrigade.getWorker().getEmployeeCategoryType().setId(value),
                 categoryEmployeeIdSupplier
         );
 
